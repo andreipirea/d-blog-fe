@@ -1,7 +1,19 @@
 import {server} from '../config';
 import PostsList from "../components/PostsList";
 
-export default function Home({ posts }) {
+import { useEffect } from 'react';
+import {fetchPosts} from '../redux/actions/postsActions';
+import { useSelector, useDispatch } from "react-redux";
+
+
+export default function Home() {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchPosts());
+  }, []);
+
+  const posts = useSelector(state => state.postsReducer)
+
   return (
     <div>
       <PostsList posts={posts} />
@@ -9,18 +21,18 @@ export default function Home({ posts }) {
   );
 }
 
-export const getStaticProps = async () => {
-  const res = await fetch(
-    `${server}/api/posts`
-  );
-  const posts = await res.json();
+// export const getStaticProps = async () => {
+//   const res = await fetch(
+//     "http://localhost:4000/getposts"
+//   );
+//   const posts = await res.json();
 
-  return {
-    props: {
-      posts,
-    },
-  };
-};
+//   return {
+//     props: {
+//       posts,
+//     },
+//   };
+// };
 
 // export const getStaticProps = async () => {
 //   const res = await fetch(

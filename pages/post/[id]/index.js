@@ -2,15 +2,18 @@ import {server} from '../../../config';
 import Link from 'next/link';
 // import {useRouter} from 'next/router';
 import Meta from '../../../components/Meta';
+import { useSelector, useDispatch } from "react-redux";
 
 const Post = ({post}) => {
   // const router = useRouter();
   // const {id} = router.query;
+  // const posts = useSelector(state => state.postsReducer)
+  // const post = posts.filter(postId => postId == id)
   return (
     <>
-      <Meta title={post.title} description={post.excerpt} />
+      <Meta title={post.title} description={post.content} />
       <h1>{post.title}</h1>
-      <p>{post.body}</p>      
+      <p>{post.content}</p>      
       <br />
       <Link href="/">Go Back</Link>
     </>
@@ -19,7 +22,7 @@ const Post = ({post}) => {
 
 
 export const getStaticProps = async (context) => {
-  const res = await fetch(`${server}/api/posts/${context.params.id}`);
+  const res = await fetch(`http://localhost:4000/getpost/${context.params.id}`);
   const post = await res.json();
 
   return {
@@ -30,7 +33,7 @@ export const getStaticProps = async (context) => {
 };
 
 export const getStaticPaths = async () => {
-  const res = await fetch(`${server}/api/posts`);
+  const res = await fetch(`http://localhost:4000/getposts/`);
   const posts = await res.json();
 
   const ids = posts.map(post => post.id);
