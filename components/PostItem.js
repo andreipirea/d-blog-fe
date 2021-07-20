@@ -1,12 +1,13 @@
 import Link from 'next/link';
 import postStyles from '../styles/Post.module.css';
+import ReactHtmlParser from 'react-html-parser';
 
 const PostItem = ({post}) => {
   return (
     <Link href="/post/[id]" as={`/post/${post.id}`}>
       <a className={postStyles.card}>
-        <h3>{post.title} &rarr;</h3>
-        <p>{post.content}</p>
+        <div>{ReactHtmlParser(post.title)}</div>
+        <div>{ReactHtmlParser(post.content)}</div>
         <p>{post.link}</p>
       </a>
     </Link>
