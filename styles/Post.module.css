@@ -26,6 +26,11 @@
   border-color: #0070f3;
 }
 
+.card > img {
+  width: 100px;
+  height: auto;
+}
+
 .card h2 {
   margin: 0 0 1rem 0;
   font-size: 1.5rem;

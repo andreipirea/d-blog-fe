@@ -15,6 +15,7 @@ const Post = () => {
     <>
       <Meta title={post[0].title} description={post[0].content} />
       <div>{ReactHtmlParser(post[0].title)}</div>
+      <img src={`${process.env.API_URL}/${post[0].imageUrl}`} />
       <p>{post[0].id}</p>     
       <div>{ReactHtmlParser(post[0].content)}</div>     
       <p>{post[0].link}</p>     
