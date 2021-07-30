@@ -1,17 +1,18 @@
 import Meta from "../components/Meta";
 import addPostStyles from "../styles/AddPost.module.css";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
-import dynamic from "next/dynamic";
 import { useState, useEffect } from "react";
 
 import ArticleEditor from "../components/ArticleEditor";
 
-import { convertFromRaw, convertToRaw } from "draft-js";
+import { convertToRaw } from "draft-js";
 import { EditorState } from "draft-js";
 import draftToHtml from "draftjs-to-html";
 import { useRouter } from "next/router";
+import {addPost} from "../redux/actions/postsActions";
+import { useDispatch } from "react-redux";
 
-const addPost = () => {
+const addPostPage = () => {
   const router = useRouter();
   const [titleEditorState, setTitleEditorState] = useState(() =>
     EditorState.createEmpty()
@@ -22,6 +23,7 @@ const addPost = () => {
   const [link, setLink] = useState("");
   const [image, setImage] = useState(null);
   const [previewImage, setPreviewImage] = useState("");
+  const dispatch = useDispatch();
 
   let convertedTitle;
   let convertedContent;
@@ -56,26 +58,16 @@ const addPost = () => {
 
   }
 
-  const submitHandler = async () => {
+  const submitHandler = () => {
     console.log("POST ADDED!");
-    router.push('/');
     const formData = new FormData();
     formData.append("title", convertedTitle);
     formData.append("content", convertedContent);
     formData.append("link", link);
     formData.append("imageUrl", image);
-    try {
-      const response = await fetch(`${process.env.API_URL}/addpost`, {
-        method: "POST",
-        body: formData
-      });
-
-      const data = await response.json();
-
-      return data;
-    } catch (err) {
-      console.log(err);
-    }
+    
+    dispatch(addPost(formData));
+    router.push('/');
   };
 
   return (
@@ -133,4 +125,4 @@ const addPost = () => {
   );
 };
 
-export default addPost;
+export default addPostPage;

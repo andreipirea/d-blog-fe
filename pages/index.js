@@ -11,13 +11,14 @@ export default function Home() {
   useEffect(() => {
     dispatch(fetchPosts());
   }, []);
+  
+  const posts = useSelector(state => state.postsReducer);
 
-  const posts = useSelector(state => state.postsReducer)
-
-  return (
+  return (!posts ? "loading..." : 
     <div>
       <PostsList posts={posts} />
     </div>
+  
   );
 }
 
