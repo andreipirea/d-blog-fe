@@ -1,4 +1,4 @@
-import { ADD_POST, DELETE_POST, GET_POSTS } from "../actions/postsActions";
+import { ADD_POST, DELETE_POST, GET_POSTS, UPDATE_POST } from "../actions/postsActions";
 
 const initialState = [];
 
@@ -13,6 +13,11 @@ export const postsReducer = (state = initialState, action) => {
     case DELETE_POST:
       const deletedPostIndex = state.findIndex(post => post.id === action.payload);
       state.splice(deletedPostIndex, 1);
+      return [...state];
+
+    case UPDATE_POST:
+      const postToBeReplaced = state.findIndex(post => post.id === action.id);
+      state.splice(postToBeReplaced, 1, action.payload);
       return [...state];
 
     default:

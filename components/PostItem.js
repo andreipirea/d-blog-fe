@@ -12,6 +12,10 @@ const PostItem = ({ post }) => {
   const dispatch = useDispatch();
   const router = useRouter();
 
+  // const editHandler = () => {
+  //   router.push("/addPost");
+  // };
+
   const deleteHandler = async (postId) => {
     dispatch(deletePost(postId));
     router.push("/");
@@ -31,9 +35,11 @@ const PostItem = ({ post }) => {
             <p>{post.link}</p>
           </div>
         </Link>
-        <EditIcon style={({ fontSize: 30 }, { color: "#009933" })} />
+        <Link href={`/addPost?postId=${post.id}`}>
+          <EditIcon style={({ fontSize: 30, color: "#009933", cursor: "pointer" })} />
+        </Link>
         <DeleteForeverIcon
-          style={({ fontSize: 30 }, { color: "#ff0000" })}
+          style={({ fontSize: 30,  color: "#ff0000", cursor: "pointer" })}
           onClick={() => deleteHandler(post.id)}
         />
       </div>

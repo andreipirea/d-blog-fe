@@ -6,27 +6,56 @@ import { useState, useEffect } from "react";
 import ArticleEditor from "../components/ArticleEditor";
 
 import { convertToRaw } from "draft-js";
-import { EditorState } from "draft-js";
+import { EditorState, ContentState, convertFromHTML } from "draft-js";
 import draftToHtml from "draftjs-to-html";
 import { useRouter } from "next/router";
-import {addPost} from "../redux/actions/postsActions";
-import { useDispatch } from "react-redux";
+import { addPost, updatePost } from "../redux/actions/postsActions";
+import { useSelector, useDispatch } from "react-redux";
 
 const addPostPage = () => {
   const router = useRouter();
-  const [titleEditorState, setTitleEditorState] = useState(() =>
-    EditorState.createEmpty()
+  const posts = useSelector((state) => state.postsReducer);
+  const post = posts.filter((p) => p.id == router.query.postId);
+
+  const contentDataStateTitle =
+    post[0] &&
+    ContentState.createFromBlockArray(convertFromHTML(post[0].title));
+  const contentDataStateContent =
+    post[0] &&
+    ContentState.createFromBlockArray(convertFromHTML(post[0].content));
+  const editorDataStateTitle =
+    contentDataStateTitle &&
+    EditorState.createWithContent(contentDataStateTitle);
+  const editorDataStateContent =
+    contentDataStateContent &&
+    EditorState.createWithContent(contentDataStateContent);
+
+  const [titleEditorState, setTitleEditorState] = useState(
+    router.query.postId ? editorDataStateTitle : () => EditorState.createEmpty()
   );
-  const [contentEditorState, setContentEditorState] = useState(() =>
-    EditorState.createEmpty()
+  const [contentEditorState, setContentEditorState] = useState(
+    router.query.postId
+      ? editorDataStateContent
+      : () => EditorState.createEmpty()
   );
-  const [link, setLink] = useState("");
-  const [image, setImage] = useState(null);
+  const [link, setLink] = useState(post[0] ? post[0].link : "");
+  const [image, setImage] = useState("");
   const [previewImage, setPreviewImage] = useState("");
   const dispatch = useDispatch();
 
   let convertedTitle;
   let convertedContent;
+
+  // useEffect(() => {
+  //   if (router.query.postId !== undefined) {
+  //     console.log(post);
+  //     console.log(router.query.postId);
+  //     console.log(titleEditorState);
+  //     console.log(contentEditorState);
+  //     console.log(link);
+  //     console.log(image);
+  //   }
+  // }, []);
 
   const onTitleEditorStateChange = (titleEditorState) => {
     setTitleEditorState(titleEditorState);
@@ -37,12 +66,14 @@ const addPostPage = () => {
   };
 
   useEffect(() => {
-    convertedTitle = draftToHtml(
-      convertToRaw(titleEditorState.getCurrentContent())
-    );
-    convertedContent = draftToHtml(
-      convertToRaw(contentEditorState.getCurrentContent())
-    );
+    if (router.query.postId === undefined) {
+      convertedTitle = draftToHtml(
+        convertToRaw(titleEditorState.getCurrentContent())
+      );
+      convertedContent = draftToHtml(
+        convertToRaw(contentEditorState.getCurrentContent())
+      );
+    }
   }, [onTitleEditorStateChange, onContentEditorStateChange]);
 
   const imageHandler = (e) => {
@@ -51,12 +82,11 @@ const addPostPage = () => {
     const reader = new FileReader();
     reader.onload = () => {
       if (reader.readyState === 2) {
-        setPreviewImage(reader.result)
+        setPreviewImage(reader.result);
       }
     };
     reader.readAsDataURL(e.target.files[0]);
-
-  }
+  };
 
   const submitHandler = () => {
     console.log("POST ADDED!");
@@ -65,9 +95,13 @@ const addPostPage = () => {
     formData.append("content", convertedContent);
     formData.append("link", link);
     formData.append("imageUrl", image);
-    
-    dispatch(addPost(formData));
-    router.push('/');
+
+    if (!post[0]) {
+      dispatch(addPost(formData));
+    } else {
+      dispatch(updatePost(formData, post[0].id));
+    }
+    router.push("/");
   };
 
   return (
@@ -112,13 +146,23 @@ const addPostPage = () => {
               accept="image/*"
               className="post-input"
               name="imageUrl"
+              title="alege o imagine"
               onChange={imageHandler}
             />
           </label>
-          <img src={previewImage} alt="" id="preview-image" />
+          <img
+            src={
+              post[0]
+                ? `${process.env.API_URL}/${post[0].imageUrl}`
+                : previewImage
+            }
+            alt=""
+            id="preview-image"
+          />
+          {post[0] && <p>{post[0].imageUrl.split("-")[1]}</p>}
         </div>
         <a href="#" onClick={submitHandler}>
-          Adauga postarea
+          { post[0] ? 'Salveaza modificarile' : 'Adauga postarea'}
         </a>
       </form>
     </div>

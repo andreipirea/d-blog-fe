@@ -1,7 +1,7 @@
 export const GET_POSTS = "GET_POSTS";
 export const ADD_POST = "ADD_POST"
 export const DELETE_POST = "DELETE_POST";
-
+export const UPDATE_POST = "UPDATE_POST";
 export const fetchPosts = () => async (dispatch) => {
     try {
       const response = await fetch(`${process.env.API_URL}/getposts`);
@@ -52,5 +52,25 @@ export const deletePost = (id) => async (dispatch) => {
     });
   } catch (err) {
     console.error(err);
+  }
+};
+
+export const updatePost = (formValues, id) => async (dispatch) => {
+  try {
+    const response = await fetch(`${process.env.API_URL}/deletepost/${id}`, {
+      method: 'PUT',
+      heders: {
+        'Content-Type': 'application/json'
+      },
+      body: formValues
+    })
+    const data = response.json();
+    dispatch({
+      type: UPDATE_POST,
+      payload: data,
+      id: id
+    });
+  } catch (err) {
+    console.log(err);
   }
 };
