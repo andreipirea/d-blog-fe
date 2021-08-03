@@ -1,4 +1,23 @@
-.form_control > img {
-  width: 100px;
+.image_thumbnail {
+  position: relative;
+  width: 200px;
+}
+
+.remove_image {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  border: 3px solid white;
+  border-radius: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.form_control .image_thumbnail > img {
+  width: 100%;
   height: auto;
 }

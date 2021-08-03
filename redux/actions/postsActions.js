@@ -57,7 +57,7 @@ export const deletePost = (id) => async (dispatch) => {
 
 export const updatePost = (formValues, id) => async (dispatch) => {
   try {
-    const response = await fetch(`${process.env.API_URL}/deletepost/${id}`, {
+    const response = await fetch(`${process.env.API_URL}/updatepost/${id}`, {
       method: 'PUT',
       heders: {
         'Content-Type': 'application/json'

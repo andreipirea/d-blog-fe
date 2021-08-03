@@ -47,14 +47,9 @@ const addPostPage = () => {
   let convertedContent;
 
   // useEffect(() => {
-  //   if (router.query.postId !== undefined) {
-  //     console.log(post);
-  //     console.log(router.query.postId);
-  //     console.log(titleEditorState);
-  //     console.log(contentEditorState);
-  //     console.log(link);
+
   //     console.log(image);
-  //   }
+
   // }, []);
 
   const onTitleEditorStateChange = (titleEditorState) => {
@@ -66,19 +61,17 @@ const addPostPage = () => {
   };
 
   useEffect(() => {
-    if (router.query.postId === undefined) {
-      convertedTitle = draftToHtml(
-        convertToRaw(titleEditorState.getCurrentContent())
-      );
-      convertedContent = draftToHtml(
-        convertToRaw(contentEditorState.getCurrentContent())
-      );
-    }
+    convertedTitle = draftToHtml(
+      convertToRaw(titleEditorState.getCurrentContent())
+    );
+    convertedContent = draftToHtml(
+      convertToRaw(contentEditorState.getCurrentContent())
+    );
   }, [onTitleEditorStateChange, onContentEditorStateChange]);
 
   const imageHandler = (e) => {
     setImage(e.target.files[0]);
-
+  
     const reader = new FileReader();
     reader.onload = () => {
       if (reader.readyState === 2) {
@@ -95,6 +88,9 @@ const addPostPage = () => {
     formData.append("content", convertedContent);
     formData.append("link", link);
     formData.append("imageUrl", image);
+
+    console.log("converted title", convertedTitle);
+    console.log("converted content", convertedContent);
 
     if (!post[0]) {
       dispatch(addPost(formData));
@@ -150,19 +146,26 @@ const addPostPage = () => {
               onChange={imageHandler}
             />
           </label>
-          <img
-            src={
-              post[0]
-                ? `${process.env.API_URL}/${post[0].imageUrl}`
-                : previewImage
-            }
-            alt=""
-            id="preview-image"
-          />
-          {post[0] && <p>{post[0].imageUrl.split("-")[1]}</p>}
+          <div className={addPostStyles.image_thumbnail}>
+            <img
+              src={
+                post[0] && !image
+                  ? `${process.env.API_URL}/${post[0].imageUrl}`
+                  : previewImage
+              }
+              alt=""
+              id="preview-image"
+            />
+            <div className={addPostStyles.remove_image}>X</div>
+          </div>
+          {post[0] && !image ? (
+            <p>{post[0].imageUrl.split("-")[1]}</p>
+          ) : (
+            image && <p>{image.name}</p>
+          )}
         </div>
         <a href="#" onClick={submitHandler}>
-          { post[0] ? 'Salveaza modificarile' : 'Adauga postarea'}
+          {post[0] ? "Salveaza modificarile" : "Adauga postarea"}
         </a>
       </form>
     </div>
