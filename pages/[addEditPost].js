@@ -48,7 +48,7 @@ const addPostPage = () => {
 
   // useEffect(() => {
 
-  //     console.log(image);
+  //     console.log(router.query);
 
   // }, []);
 
@@ -70,18 +70,20 @@ const addPostPage = () => {
   }, [onTitleEditorStateChange, onContentEditorStateChange]);
 
   const imageHandler = (e) => {
-    setImage(e.target.files[0]);
-  
-    const reader = new FileReader();
-    reader.onload = () => {
-      if (reader.readyState === 2) {
-        setPreviewImage(reader.result);
-      }
-    };
-    reader.readAsDataURL(e.target.files[0]);
+    setImage(e.target.files[0] ? e.target.files[0] : "");
+
+    if (e.target.files[0]) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        if (reader.readyState === 2) {
+          setPreviewImage(reader.result);
+        }
+      };
+      reader.readAsDataURL(e.target.files[0]);
+    }
   };
 
-  const submitHandler = () => {
+  const submitHandler = async () => {
     console.log("POST ADDED!");
     const formData = new FormData();
     formData.append("title", convertedTitle);
@@ -94,16 +96,17 @@ const addPostPage = () => {
 
     if (!post[0]) {
       dispatch(addPost(formData));
+      router.push("/");
     } else {
       dispatch(updatePost(formData, post[0].id));
+      router.push(`/post/${post[0].id}`);
     }
-    router.push("/");
   };
 
   return (
     <div>
       <Meta title="Add Post" />
-      <h1>Add Post</h1>
+      <h1>{router.query.addEditPost === "addPost" ? "Adauga o Postare" : "Editeaza Postarea"}</h1>
       <form id="post-form" method="POST" encType="multipart/form-data">
         <div className={addPostStyles.form_control}>
           <label>

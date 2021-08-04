@@ -13,7 +13,7 @@ const Nav = () => {
             <Link href="/about">About</Link>
           </li>
           <li>
-            <Link href="/addPost">Add Post</Link>
+            <Link href="/[addEditPost]" as="/addPost">Add Post</Link>
           </li>
         </ul>
       </nav>

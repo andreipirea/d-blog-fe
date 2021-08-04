@@ -6,7 +6,6 @@ import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 import { useDispatch } from "react-redux";
 import { deletePost } from "../redux/actions/postsActions";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
 
 const PostItem = ({ post }) => {
   const dispatch = useDispatch();
@@ -16,9 +15,14 @@ const PostItem = ({ post }) => {
   //   router.push("/addPost");
   // };
 
-  const deleteHandler = async (postId) => {
-    dispatch(deletePost(postId));
-    router.push("/");
+  const deleteHandler = () => {
+    let answer = confirm("Sigur vrei sa stergi postarea?");
+    if (answer) {
+      dispatch(deletePost(post.id));
+      router.push("/");
+    } else {
+     return; 
+    }
   };
 
   return (
@@ -26,21 +30,23 @@ const PostItem = ({ post }) => {
       <div className={postStyles.card}>
         <Link href="/post/[id]" as={`/post/${post.id}`}>
           <div style={{ cursor: "pointer" }}>
-            <img
-              src={`${process.env.API_URL}/${post.imageUrl}`}
-              className={"card-img"}
-            />
+            {post.imageUrl && 
+              <img
+                src={`${process.env.API_URL}/${post.imageUrl}`}
+                className={"card-img"}
+              />
+            }
             <div>{ReactHtmlParser(post.title)}</div>
             <div>{ReactHtmlParser(post.content)}</div>
             <p>{post.link}</p>
           </div>
         </Link>
-        <Link href={`/addPost?postId=${post.id}`}>
+        <Link href={`/[addEditPost]?postId=${post.id}`} as={`/editPost/?postId=${post.id}`} >
           <EditIcon style={({ fontSize: 30, color: "#009933", cursor: "pointer" })} />
         </Link>
         <DeleteForeverIcon
           style={({ fontSize: 30,  color: "#ff0000", cursor: "pointer" })}
-          onClick={() => deleteHandler(post.id)}
+          onClick={deleteHandler}
         />
       </div>
     )
