@@ -41,6 +41,7 @@ const addPostPage = () => {
   const [link, setLink] = useState(post[0] ? post[0].link : "");
   const [image, setImage] = useState("");
   const [previewImage, setPreviewImage] = useState("");
+  const [removeImage, setRemoveImage] = useState(false);
   const dispatch = useDispatch();
 
   let convertedTitle;
@@ -69,8 +70,14 @@ const addPostPage = () => {
     );
   }, [onTitleEditorStateChange, onContentEditorStateChange]);
 
+
+
   const imageHandler = (e) => {
     setImage(e.target.files[0] ? e.target.files[0] : "");
+    if (e.target.files[0]) {
+      setRemoveImage(false);
+      console.log("files", e.target.files[0]);
+    }
 
     if (e.target.files[0]) {
       const reader = new FileReader();
@@ -83,6 +90,14 @@ const addPostPage = () => {
     }
   };
 
+  const handleRemoveImage = () => {
+    setImage("");
+    setRemoveImage(true);
+  };
+
+  console.log("remove image", removeImage);
+  console.log("image", image);
+
   const submitHandler = async () => {
     console.log("POST ADDED!");
     const formData = new FormData();
@@ -90,6 +105,7 @@ const addPostPage = () => {
     formData.append("content", convertedContent);
     formData.append("link", link);
     formData.append("imageUrl", image);
+    formData.append("removeImage", removeImage);
 
     console.log("converted title", convertedTitle);
     console.log("converted content", convertedContent);
@@ -106,7 +122,11 @@ const addPostPage = () => {
   return (
     <div>
       <Meta title="Add Post" />
-      <h1>{router.query.addEditPost === "addPost" ? "Adauga o Postare" : "Editeaza Postarea"}</h1>
+      <h1>
+        {router.query.addEditPost === "addPost"
+          ? "Adauga o Postare"
+          : "Editeaza Postarea"}
+      </h1>
       <form id="post-form" method="POST" encType="multipart/form-data">
         <div className={addPostStyles.form_control}>
           <label>
@@ -149,23 +169,25 @@ const addPostPage = () => {
               onChange={imageHandler}
             />
           </label>
-          <div className={addPostStyles.image_thumbnail}>
-            <img
-              src={
-                post[0] && !image
-                  ? `${process.env.API_URL}/${post[0].imageUrl}`
-                  : previewImage
-              }
-              alt=""
-              id="preview-image"
-            />
-            <div className={addPostStyles.remove_image}>X</div>
-          </div>
-          {post[0] && !image ? (
+          {(post[0] || image) && !removeImage ? (
+              <div className={addPostStyles.image_thumbnail}>
+                <img
+                  src={
+                    post[0] && !image
+                      ? `${process.env.API_URL}/${post[0].imageUrl}`
+                      : previewImage
+                  }
+                  alt=""
+                  id="preview-image"
+                />
+                <div className={addPostStyles.remove_image} onClick={handleRemoveImage}>X</div>
+              </div>
+            ) : null }
+          {!removeImage &&( (post[0] && !image) ? (
             <p>{post[0].imageUrl.split("-")[1]}</p>
           ) : (
             image && <p>{image.name}</p>
-          )}
+          ))}
         </div>
         <a href="#" onClick={submitHandler}>
           {post[0] ? "Salveaza modificarile" : "Adauga postarea"}
