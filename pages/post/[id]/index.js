@@ -9,7 +9,6 @@ import EditIcon from "@material-ui/icons/Edit";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 import { deletePost } from "../../../redux/actions/postsActions";
 
-
 const Post = () => {
   const dispatch = useDispatch();
   const router = useRouter();
@@ -28,31 +27,36 @@ const Post = () => {
       await dispatch(deletePost(post[0].id));
       router.push("/");
     } else {
-     return; 
+      return;
     }
   };
 
   return (
     post[0] !== undefined && (
       <>
-        <Meta
-          title={post[0].title}
-          description={post[0].content}
-        />
-        <Link href={`/[addEditPost]?postId=${post[0].id}`} as={`/editPost/?postId=${post[0].id}`} >
-          <EditIcon style={({ fontSize: 30, color: "#009933", cursor: "pointer" })} />
+        <Meta title={"Titlu"} description={post[0].content} />
+        <Link
+          href={`/[addEditPost]?postId=${post[0].id}`}
+          as={`/editPost/?postId=${post[0].id}`}
+        >
+          <EditIcon
+            style={{ fontSize: 30, color: "#009933", cursor: "pointer" }}
+          />
         </Link>
         <DeleteForeverIcon
-          style={({ fontSize: 30,  color: "#ff0000", cursor: "pointer" })}
+          style={{ fontSize: 30, color: "#ff0000", cursor: "pointer" }}
           onClick={deleteHandler}
         />
         <div>{ReactHtmlParser(post[0].title)}</div>
-        {post[0].imageUrl &&
+        {post[0].imageUrl && (
           <img
             src={`${process.env.API_URL}/${post[0].imageUrl}`}
             style={{ width: "80%", height: "auto" }}
           />
-        }
+        )}
+        {post[0].link && (
+          <iframe width="100%" height="auto" src={post[0].link} allowFullScreen></iframe>
+        )}
         <p>{post[0].id}</p>
         <div>{ReactHtmlParser(post[0].content)}</div>
         <p>{post[0].link}</p>

@@ -19,7 +19,7 @@ const addPostPage = () => {
 
   const contentDataStateTitle =
     post[0] &&
-    ContentState.createFromBlockArray(convertFromHTML(post[0].title));
+    ContentState.createFromBlockArray(convertFromHTML(post[0].title !== undefined ? post[0].title : ""));
   const contentDataStateContent =
     post[0] &&
     ContentState.createFromBlockArray(convertFromHTML(post[0].content));
@@ -76,7 +76,6 @@ const addPostPage = () => {
     setImage(e.target.files[0] ? e.target.files[0] : "");
     if (e.target.files[0]) {
       setRemoveImage(false);
-      console.log("files", e.target.files[0]);
     }
 
     if (e.target.files[0]) {
@@ -95,8 +94,6 @@ const addPostPage = () => {
     setRemoveImage(true);
   };
 
-  console.log("remove image", removeImage);
-  console.log("image", image);
 
   const submitHandler = async () => {
     console.log("POST ADDED!");
@@ -107,8 +104,6 @@ const addPostPage = () => {
     formData.append("imageUrl", image);
     formData.append("removeImage", removeImage);
 
-    console.log("converted title", convertedTitle);
-    console.log("converted content", convertedContent);
 
     if (!post[0]) {
       dispatch(addPost(formData));

@@ -38,7 +38,6 @@ const PostItem = ({ post }) => {
             }
             <div>{ReactHtmlParser(post.title)}</div>
             <div>{ReactHtmlParser(post.content)}</div>
-            <p>{post.link}</p>
           </div>
         </Link>
         <Link href={`/[addEditPost]?postId=${post.id}`} as={`/editPost/?postId=${post.id}`} >
