@@ -15,6 +15,12 @@ const Nav = () => {
           <li>
             <Link href="/[addEditPost]" as="/addPost">Add Post</Link>
           </li>
+          <li>
+            <Link href="/signup">Sign up</Link>
+          </li>
+          <li>
+            <Link href="/login">Log in</Link>
+          </li>
         </ul>
       </nav>
     </div>
