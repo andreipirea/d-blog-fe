@@ -27,6 +27,7 @@ const signup = () => {
         })
       });
       const data = await response.json();
+      console.log("signup data", data);
     } catch (err) {
       console.error(err);
     }
