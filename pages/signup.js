@@ -1,38 +1,28 @@
 import Meta from "../components/Meta";
 import { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { signup } from "../redux/actions/authActions";
+import { ContactsOutlined } from "@material-ui/icons";
 
-const signup = () => {
+const signupPage = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const dispatch = useDispatch();
+  const userState = useSelector(state => state.authReducer);
 
   const handleSubmit = async () => {
     if (password !== confirmPassword) {
       console.log("nu ai pus aceeasi parola");
       console.log("pass", password);
       console.log("conf pass", confirmPassword);
+      alert("Parola difera!");
       return;
     }
-    try {
-      const response = await fetch(`${process.env.API_URL}/auth/signup`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          name,
-          email,
-          password
-        })
-      });
-      const data = await response.json();
-      console.log("signup data", data);
-    } catch (err) {
-      console.error(err);
-    }
+    dispatch(signup(name, email, password));
   };
-
+  console.log("user state", userState);
   return (
     <div>
       <Meta title="Creeaza-ti cont" />
@@ -80,4 +70,4 @@ const signup = () => {
   );
 };
 
-export default signup;
+export default signupPage;

@@ -95,7 +95,8 @@ const addPostPage = () => {
   };
 
 
-  const submitHandler = async () => {
+  const submitHandler = async (e) => {
+    e.preventDefault();
     console.log("POST ADDED!");
     const formData = new FormData();
     formData.append("title", convertedTitle);

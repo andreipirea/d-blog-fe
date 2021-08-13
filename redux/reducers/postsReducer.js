@@ -11,9 +11,9 @@ export const postsReducer = (state = initialState, action) => {
       return [...state, action.payload];
 
     case DELETE_POST:
-      const deletedPostIndex = state.findIndex(post => post.id === action.payload);
-      state.splice(deletedPostIndex, 1);
-      return [...state];
+      // const deletedPostIndex = state.findIndex(post => post.id === action.payload);
+      // state.splice(deletedPostIndex, 1);
+      return [...action.payload];
 
     case UPDATE_POST:
       const postToBeReplaced = state.findIndex(post => post.id === action.id);

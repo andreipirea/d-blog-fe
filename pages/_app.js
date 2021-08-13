@@ -5,12 +5,14 @@ import { createStore, combineReducers, compose, applyMiddleware } from "redux";
 import thunk from "redux-thunk"
 // import withRedux, { createWrapper } from "next-redux-wrapper"
 import {postsReducer} from '../redux/reducers/postsReducer';
+import {authReducer} from '../redux/reducers/authReducer';
 import { Provider } from "react-redux";
 // import {store} from "../redux/store";
 
 const middleware = [thunk]
 const rootReducer = combineReducers({
-  postsReducer: postsReducer
+  postsReducer: postsReducer,
+  authReducer: authReducer
 });
 
 const composeEnhancers = (typeof window !== 'undefined' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) || compose;

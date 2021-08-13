@@ -1,28 +1,19 @@
 import Meta from "../components/Meta";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import {login} from "../redux/actions/authActions";
+import {useRouter} from "next/router";
 
-const signup = () => {
+
+const loginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const dispatch = useDispatch();
+  const router = useRouter();
 
-  const handleSubmit = async () => {
-    
-    try {
-      const response = await fetch(`${process.env.API_URL}/auth/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          email,
-          password
-        })
-      });
-      const data = await response.json();
-      console.log("login data", data);
-    } catch (err) {
-      console.error(err);
-    }
+  const handleSubmit = () => {
+    dispatch(login(email, password));
+    router.push('/');
   };
 
   return (
@@ -54,4 +45,4 @@ const signup = () => {
   );
 };
 
-export default signup;
+export default loginPage;

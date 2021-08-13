@@ -2,6 +2,8 @@ export const GET_POSTS = "GET_POSTS";
 export const ADD_POST = "ADD_POST"
 export const DELETE_POST = "DELETE_POST";
 export const UPDATE_POST = "UPDATE_POST";
+
+
 export const fetchPosts = () => async (dispatch) => {
     try {
       const response = await fetch(`${process.env.API_URL}/getposts`);
@@ -20,6 +22,9 @@ export const addPost = (formValues) => async (dispatch) => {
   try {
     const response = await fetch(`${process.env.API_URL}/addpost`, {
       method: "POST",
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem('token')
+      },
       body: formValues
     });
     const data = await response.json();
@@ -40,15 +45,17 @@ export const deletePost = (id) => async (dispatch) => {
       {
         method: "DELETE",
         headers: {
-          "Content-type": "application/json"
+          "Content-type": "application/json",
+          Authorization: "Bearer " + localStorage.getItem('token')
         },
         body: null
       }
     );
-    
+    const response = await fetch(`${process.env.API_URL}/getposts`);
+    const posts = await response.json();
     dispatch({
       type: DELETE_POST,
-      payload: id
+      payload: posts.reverse()
     });
   } catch (err) {
     console.error(err);

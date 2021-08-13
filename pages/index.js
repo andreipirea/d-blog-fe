@@ -3,6 +3,7 @@ import PostsList from "../components/PostsList";
 
 import { useEffect } from 'react';
 import {fetchPosts} from '../redux/actions/postsActions';
+import {getUser} from '../redux/actions/authActions';
 import { useSelector, useDispatch } from "react-redux";
 
 
@@ -10,6 +11,9 @@ export default function Home() {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchPosts());
+    if (localStorage.getItem('token') !== null) {
+      dispatch(getUser());
+    }
   }, []);
   
   const posts = useSelector(state => state.postsReducer);
