@@ -1,18 +1,18 @@
 import Nav from "./Nav";
 import Meta from "./Meta";
-import Header from './Header';
+import Header from "./Header";
+import HomeCarousel from "./HomeCarousel";
+
 import styles from "../styles/Layout.module.css";
 
 const Layout = ({ children }) => {
   return (
     <>
-    <Meta />
+      <Meta />
       <Nav />
+      <HomeCarousel />
       <div className={styles.container}>
-        <main className={styles.main}>
-          <Header />
-          {children}  
-        </main>
+        <main className={styles.main}>{children}</main>
       </div>
     </>
   );

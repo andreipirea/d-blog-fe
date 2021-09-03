@@ -15,6 +15,7 @@ import { useSelector, useDispatch } from "react-redux";
 const addPostPage = () => {
   const router = useRouter();
   const posts = useSelector((state) => state.postsReducer);
+  const userStatus = useSelector(state => state.authReducer);
   const post = posts.filter((p) => p.id == router.query.postId);
 
   const contentDataStateTitle =
@@ -47,11 +48,11 @@ const addPostPage = () => {
   let convertedTitle;
   let convertedContent;
 
-  // useEffect(() => {
+  useEffect(() => {
 
-  //     console.log(router.query);
+      console.log("user status", userStatus);
 
-  // }, []);
+  }, []);
 
   const onTitleEditorStateChange = (titleEditorState) => {
     setTitleEditorState(titleEditorState);
@@ -97,6 +98,9 @@ const addPostPage = () => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
+    if (userStatus.user.userStatus !== "admin") {
+      return alert("Nu aveti drepturi pentru a edita sau adauga articole!");
+    }
     console.log("POST ADDED!");
     const formData = new FormData();
     formData.append("title", convertedTitle);

@@ -3,7 +3,7 @@ import PostsList from "../components/PostsList";
 
 import { useEffect } from 'react';
 import {fetchPosts} from '../redux/actions/postsActions';
-import {getUser} from '../redux/actions/authActions';
+import {getUser, logout} from '../redux/actions/authActions';
 import { useSelector, useDispatch } from "react-redux";
 
 

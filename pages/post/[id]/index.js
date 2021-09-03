@@ -11,6 +11,7 @@ import { deletePost } from "../../../redux/actions/postsActions";
 
 const Post = () => {
   const dispatch = useDispatch();
+  const userStatus = useSelector((state) => state.authReducer);
   const router = useRouter();
   const { id } = router.query;
 
@@ -35,18 +36,22 @@ const Post = () => {
     post[0] !== undefined && (
       <>
         <Meta title={"Titlu"} description={post[0].content} />
-        <Link
-          href={`/[addEditPost]?postId=${post[0].id}`}
-          as={`/editPost/?postId=${post[0].id}`}
-        >
-          <EditIcon
-            style={{ fontSize: 30, color: "#009933", cursor: "pointer" }}
-          />
-        </Link>
-        <DeleteForeverIcon
-          style={{ fontSize: 30, color: "#ff0000", cursor: "pointer" }}
-          onClick={deleteHandler}
-        />
+        {userStatus.user && userStatus.user.userStatus === "admin" && (
+          <>
+            <Link
+              href={`/[addEditPost]?postId=${post[0].id}`}
+              as={`/editPost/?postId=${post[0].id}`}
+            >
+              <EditIcon
+                style={{ fontSize: 30, color: "#009933", cursor: "pointer" }}
+              />
+            </Link>
+            <DeleteForeverIcon
+              style={{ fontSize: 30, color: "#ff0000", cursor: "pointer" }}
+              onClick={deleteHandler}
+            />
+          </>
+        )}
         <div>{ReactHtmlParser(post[0].title)}</div>
         {post[0].imageUrl && (
           <img
@@ -55,7 +60,12 @@ const Post = () => {
           />
         )}
         {post[0].link && (
-          <iframe width="100%" height="auto" src={post[0].link} allowFullScreen></iframe>
+          <iframe
+            width="100%"
+            height="auto"
+            src={post[0].link}
+            allowFullScreen
+          ></iframe>
         )}
         <p>{post[0].id}</p>
         <div>{ReactHtmlParser(post[0].content)}</div>

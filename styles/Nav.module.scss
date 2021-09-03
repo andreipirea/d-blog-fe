@@ -1,0 +1,125 @@
+@import "colors";
+@import "fonts";
+
+.navAdmin {
+  height: 30px !important;
+  background-color: $dark_green !important;
+  color: $white !important;
+  ul {
+    justify-content: flex-end !important;
+    li {
+      font-family: 'Roboto';
+      font-weight: 300;
+      font-style: normal;
+      font-size: 12px;
+
+    }
+    li:hover {
+      cursor: pointer;
+      font-size: 12px;
+      text-shadow: 2px 2px 4px #000000;
+      transition: .5s ease-in-out;
+    }
+  }
+}
+.nav {
+  position: relative;
+  height: 85px;
+  // padding: 10px;
+  background-color: $white;
+  color: $dark_green;
+  border-bottom: 1px solid $dark_green;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  ul {
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    list-style: none;
+    width: 100%;
+    max-width: 1440px;
+  }
+  .logo {
+    margin-right: auto;
+  }
+  li {
+    margin: 5px 15px;
+    font-family: 'Parisienne';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 35px;
+    transition: .5s ease-in-out;
+
+  }
+  li:hover {
+    cursor: pointer;
+    font-size: 45px;
+    text-shadow: 2px 2px 4px #000000;
+    transition: .5s ease-in-out;
+  }
+
+  .menu_icon {
+    display: none;
+    margin: 5px 15px;
+  }
+
+}
+
+.mobile_nav {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  background-color: $green;
+  opacity: .9;
+  width: 80%;
+  top: -100%;
+  left: 10%;
+  transition: 1s ease-in-out;
+  z-index: 1;
+  ul {
+    margin: auto;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    
+    li {
+      margin: 5px 15px;
+      font-family: 'Parisienne';
+      font-weight: 300;
+      font-style: normal;
+      color: $white;
+      font-size: 40px;
+      a {
+        text-decoration: none;
+      }
+    }
+  }
+
+}
+
+.active {
+  top: 85px;
+  transition: 1s ease-in-out;
+}
+
+@media (max-width: 768px) {
+  .navAdmin {
+    display: none;
+  }
+  .nav {
+    justify-content: flex-end;
+    ul {
+      display: none;
+    }
+
+    .menu_icon {
+      display: block;
+    }
+  }
+}

@@ -63,15 +63,17 @@ export const deletePost = (id) => async (dispatch) => {
 };
 
 export const updatePost = (formValues, id) => async (dispatch) => {
+  console.log("form values", formValues);
   try {
     const response = await fetch(`${process.env.API_URL}/updatepost/${id}`, {
       method: 'PUT',
-      heders: {
-        'Content-Type': 'application/json'
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem('token')
       },
       body: formValues
     })
-    const data = response.json();
+    const data = await response.json();
+    console.log("uptated data", data);
     dispatch({
       type: UPDATE_POST,
       payload: data,

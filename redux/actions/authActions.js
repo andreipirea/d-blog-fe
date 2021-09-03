@@ -4,6 +4,12 @@ export const LOG_OUT = "LOG_OUT";
 export const GET_USER = "GET_USER";
 
 
+export const logout = () => {
+  return {
+    type: LOG_OUT
+  };
+};
+
 export const signup = (name, email, password) => async dispatch => {
   try {
     const response = await fetch(`${process.env.API_URL}/auth/signup`, {
@@ -19,6 +25,10 @@ export const signup = (name, email, password) => async dispatch => {
     });
     const data = await response.json();
     console.log("signup data", data);
+    setTimeout(() => {
+      dispatch(logout());
+      console.log("log out");
+    }, 3600000);
     dispatch({
       type: SIGNUP_SUCCESS,
       payload: data
@@ -42,6 +52,10 @@ export const login = (email, password) => async (dispatch) => {
     });
     const data = await response.json();
     console.log("login data", data);
+    setTimeout(() => {
+      dispatch(logout());
+      console.log("log out");
+    }, 3600000);
     dispatch({
       type: LOGIN_SUCCESS,
       payload: data
@@ -51,14 +65,9 @@ export const login = (email, password) => async (dispatch) => {
   }
 };
 
-export const logout = () => {
-  return {
-    type: LOG_OUT
-  };
-};
+
 
 export const getUser = () => async (dispatch) => {
-
   try {
     const response = await fetch(`${process.env.API_URL}/auth/user`, {
       headers: {
@@ -67,6 +76,9 @@ export const getUser = () => async (dispatch) => {
     })
     const user = await response.json();
     console.log("fetched user", user);
+    if (user.message) {
+      dispatch(logout());
+    }
     dispatch({
       type: GET_USER,
       payload: user

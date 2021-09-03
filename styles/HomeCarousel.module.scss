@@ -1,0 +1,57 @@
+@import "colors";
+@import "fonts";
+
+.slider_container {
+  width: 100%;
+ // background-color: red !important;
+
+  & > div {
+    ul {
+      bottom: 30px;
+    }
+    button {
+      width: 30px;
+      height: 30px;
+      background-color: $dark_green;
+      z-index: 100;
+      border-radius: 25px;
+      &:hover {
+        background-color: $green;
+      }
+      &:focus {
+        background-color: $green;
+      }
+      &:before {
+        position: relative;
+        top: 1px;
+      }
+      &:nth-of-type(1) {
+        left: 20px;
+      }
+      &:nth-of-type(2) {
+        right: 20px;
+      }
+    }
+    & > div {
+
+      & > div {
+
+        & > div {
+          .slide_wrapper {
+            height: 70vh;
+
+            & > div {
+              display: block !important;
+              height: 100%;
+              & > img {
+                width: 100% !important;
+                height: auto !important;
+                object-fit: cover !important;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
