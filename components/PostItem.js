@@ -1,5 +1,5 @@
 import Link from "next/link";
-import postStyles from "../styles/Post.module.css";
+import postStyles from "../styles/PostsList.module.scss";
 import ReactHtmlParser from "react-html-parser";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";

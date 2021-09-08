@@ -76,6 +76,12 @@ const ArticleEditor = (props) => {
             "subscript"
           ]
         },
+        fontFamily: {
+          options: ['Parisienne', 'Roboto', 'BlinkMacSystemFont', 'Segoe UI', 'Oxygen', 'Ubuntu', 'Helvetica Neue', 'sans-serif'],
+          className: undefined,
+          component: undefined,
+          dropdownClassName: undefined,
+        },
         list: {
           inDropdown: false,
           className: undefined,

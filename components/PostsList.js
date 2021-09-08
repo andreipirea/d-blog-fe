@@ -1,9 +1,9 @@
 import PostItem from './PostItem';
-import postStyles from '../styles/Post.module.css';
+import postsListStyles from '../styles/PostsList.module.scss';
 
 const PostsList = ({posts}) => {
   return (
-    <div className={postStyles.grid}>
+    <div className={postsListStyles.grid}>
       {posts.map((post, idx) => (
         <PostItem post={post} key={idx} />
       ))}
