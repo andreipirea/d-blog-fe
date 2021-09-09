@@ -55,10 +55,11 @@ const HomeCarousel = () => {
         {fetchedSlides.map((slide, index) => {
           return (
             <div
-              data-index={index}
-              key={slide}
-              className={carouselStyles.slide_wrapper}
+            data-index={index}
+            key={slide}
+            className={carouselStyles.slide_wrapper}
             >
+            <div className={carouselStyles.slider_overlay}></div>
               {slide.imageUrl && (
                 <img
                   className={carouselStyles.slide_image}
