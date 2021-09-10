@@ -1,0 +1,75 @@
+.post_page_container {
+  background-image: url("../public/images/wood-tile.jpg");
+  background-position: left top;
+  background-size: auto;
+  background-repeat: repeat;
+  background-attachment: fixed;
+
+  .admin_icons_container {
+    position: fixed;
+    background-color: rgba(255, 255, 255, 0.6);
+    box-shadow: 0 0 50px 0 rgb(0 0 0 / 30%);
+    border-radius: 0 10px 10px 0;
+    top: 50%;
+    z-index: 1;
+  }
+
+
+  .title_container {
+    max-width: 1170px;
+    padding: 40px 0;
+    margin: auto;
+    text-align: center;
+    text-shadow: 2px 2px 4px #000000;
+  }
+
+  .post_page_inner_wrapper {
+    max-width: 1170px;
+    width: 80%;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    // box-shadow: 0 0 29px 0 rgb(50 50 50 / 32%);
+    box-shadow: 0 0 50px 0 rgb(0 0 0 / 60%);
+    background-color: white;
+    // padding: 40px 40px;
+    padding: 2%;
+    border-radius: 10px;
+
+    img {
+      width: 100%;
+      height: auto;
+      margin-bottom: 40px;
+    }
+
+    .video_container {
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+      padding-top: 56.25%;
+      margin-bottom: 40px;
+      /* 16:9 Aspect Ratio */
+
+      .video {
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        width: 100%;
+        height: 100%;
+        border: none;
+
+      }
+
+    }
+
+    .content_container {
+      width: 100%;
+      text-align: left;
+    }
+
+  }
+}

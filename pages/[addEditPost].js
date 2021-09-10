@@ -1,9 +1,11 @@
+import React, {Component} from "react";
 import Meta from "../components/Meta";
 import addPostStyles from "../styles/AddPost.module.css";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { useState, useEffect } from "react";
 
 import ArticleEditor from "../components/ArticleEditor";
+import DropzoneUploader from "../components/DropzoneUploader";
 
 import { convertToRaw } from "draft-js";
 import { EditorState, ContentState, convertFromHTML } from "draft-js";
@@ -76,6 +78,7 @@ const addPostPage = () => {
   const imageHandler = (e) => {
     setImage(e.target.files[0] ? e.target.files[0] : "");
     if (e.target.files[0]) {
+      console.log("single upload", e.target.files[0]);
       setRemoveImage(false);
     }
 
@@ -188,6 +191,7 @@ const addPostPage = () => {
           ) : (
             image && <p>{image.name}</p>
           ))}
+          <DropzoneUploader />
         </div>
         <a href="#" onClick={submitHandler}>
           {post[0] ? "Salveaza modificarile" : "Adauga postarea"}
