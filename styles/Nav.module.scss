@@ -17,9 +17,9 @@
     li:hover {
       cursor: pointer;
       font-size: 12px;
-      transform: scale(1.2)  ;
+      transform: rotate(0deg)  ;
       text-shadow: 2px 2px 4px #000000;
-      transition: .5s ease-in-out;
+      transition: 0s;
     }
   }
 }

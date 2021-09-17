@@ -1,5 +1,5 @@
 import Layout from "../components/Layout";
-import "../styles/globals.css";
+import "../styles/globals.scss";
 // import { wrapper } from "../redux/store"
 import { createStore, combineReducers, compose, applyMiddleware } from "redux";
 import thunk from "redux-thunk"
