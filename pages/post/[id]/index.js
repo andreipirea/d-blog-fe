@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import Meta from "../../../components/Meta";
@@ -9,19 +9,25 @@ import EditIcon from "@material-ui/icons/Edit";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 import { deletePost } from "../../../redux/actions/postsActions";
 import postPageStyles from "../../../styles/PostPage.module.scss";
+import Slider from "react-slick";
 
 const Post = () => {
   const dispatch = useDispatch();
   const userStatus = useSelector((state) => state.authReducer);
   const router = useRouter();
   const { id } = router.query;
-
-  useEffect(() => {
-    dispatch(fetchPosts());
-  }, []);
+  const [gallery, setGallery] = useState([]);
 
   const posts = useSelector((state) => state.postsReducer);
   const post = posts.filter((postId) => postId.id == id);
+
+  useEffect(() => {
+    dispatch(fetchPosts());
+
+    if (post[0] && post[0].imageGallery !== "") {
+      setGallery(post[0].imageGallery.split(","));
+    }
+  }, []);
 
   const deleteHandler = async () => {
     let answer = confirm("Sigur vrei sa stergi postarea?");
@@ -31,6 +37,23 @@ const Post = () => {
     } else {
       return;
     }
+  };
+
+  const settings = {
+    customPaging: function (i) {
+      return (
+        <a>
+          <img src={`${process.env.API_URL}/${gallery[i]}`} />
+        </a>
+      );
+    },
+    dots: true,
+    dotsClass: "slick-dots slick-thumb",
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    adaptiveHeight: true
   };
 
   return (
@@ -54,7 +77,12 @@ const Post = () => {
                 />
               </Link>
               <DeleteForeverIcon
-                style={{ fontSize: 60, color: "#ff0000", cursor: "pointer", margin: "10px 20px" }}
+                style={{
+                  fontSize: 60,
+                  color: "#ff0000",
+                  cursor: "pointer",
+                  margin: "10px 20px"
+                }}
                 onClick={deleteHandler}
               />
             </div>
@@ -75,6 +103,38 @@ const Post = () => {
                   src={post[0].link}
                   allowFullScreen
                 ></iframe>
+              </div>
+            )}
+            {post[0].imageGallery !== "" && (
+              <div className={postPageStyles.slider_container}>
+                <Slider {...settings}>
+                  {gallery.map((slide, index) => {
+                    return (
+                      <div
+                        data-index={index}
+                        key={index}
+                        className={postPageStyles.slide_wrapper}
+                      >
+                        <img
+                          className={postPageStyles.slide_image}
+                          alt={`${process.env.API_URL}/${slide}`}
+                          src={`${process.env.API_URL}/${slide}`}
+                        />
+                      </div>
+                      // <div
+                      //   data-index={index}
+                      //   key={index}
+                      //   className={postPageStyles.slide_wrapper}
+                      // >
+                      //   <img
+                      //     className={postPageStyles.slide_image}
+                      //     alt={`${process.env.API_URL}/${gallery[1]}`}
+                      //     src={`${process.env.API_URL}/${gallery[1]}`}
+                      //   />
+                      // </div>
+                    );
+                  })}
+                </Slider>
               </div>
             )}
             <div className={postPageStyles.content_container}>

@@ -1,3 +1,6 @@
+@import "colors";
+@import "fonts";
+
 .post_page_container {
   background-image: url("../public/images/wood-tile.jpg");
   background-position: left top;
@@ -64,6 +67,40 @@
 
       }
 
+    }
+
+    .slider_container {
+      width: 100%;
+
+      ul {
+        position: relative;
+        bottom: 30px;
+        li {
+          width: 13%;
+          img {
+            margin-bottom: 0;
+          }
+        }
+      }
+
+      button {
+        &:nth-of-type(1) {
+          left: -34px;
+        }
+        &:nth-of-type(2) {
+          right: -34px;
+        }
+        &:before {
+          opacity: 1;
+          color: $dark_green;
+        }
+        &:hover {
+          &:before {
+            opacity: 1;
+            color: $green;
+          }
+        }
+      }
     }
 
     .content_container {

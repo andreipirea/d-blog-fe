@@ -67,6 +67,7 @@ const addPostPage = () => {
     const file = new File([buf], img.split("\\")[1], { type: "image/png" });
     fileArr.push(file);
     setPostCarousel(fileArr);
+    console.log("file array -> ", fileArr);
   };
 
   useEffect(() => {
