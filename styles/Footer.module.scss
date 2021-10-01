@@ -1,0 +1,16 @@
+@import "colors";
+
+.footerContainer {
+  // position: relative;
+  // bottom: 0;
+  width: 100%;
+  height: 85px;
+  background-image: url("../public/images/header-flowers-all.png"), url("../public/images/dragon-fly-blue.png"),  url("../public/images/header-flowers-all.png");
+  background-repeat: no-repeat;
+  background-position: left top, center top, right top;
+  background-size: contain;
+  box-shadow: 30px 30px 100px $dark_green;
+  opacity: 1;
+  // background-color: paleturquoise;
+  margin-top: auto;
+}

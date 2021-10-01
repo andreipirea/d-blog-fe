@@ -7,9 +7,12 @@
   background-size: auto;
   background-repeat: repeat;
   background-attachment: fixed;
+  padding-bottom: 60px;
 
   .admin_icons_container {
     position: fixed;
+    display: flex;
+    flex-direction: column;
     background-color: rgba(255, 255, 255, 0.6);
     box-shadow: 0 0 50px 0 rgb(0 0 0 / 30%);
     border-radius: 0 10px 10px 0;

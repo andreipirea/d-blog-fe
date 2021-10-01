@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Meta from "../components/Meta";
-import addPostStyles from "../styles/AddPost.module.css";
+import addPostStyles from "../styles/AddEditPost.module.scss";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { useState, useEffect } from "react";
 
@@ -47,11 +47,12 @@ const addPostPage = () => {
   const [link, setLink] = useState(post[0] ? post[0].link : "");
   const [image, setImage] = useState([]);
   const [postCarousel, setPostCarousel] = useState([]);
-  const [previewImage, setPreviewImage] = useState("");
-  const [removeImage, setRemoveImage] = useState(false);
+  const [carouselImagesNames, setCarouselImagesNames] = useState(post[0] && post[0].imageGallery != "" ? post[0].imageGallery.split(",") : []);
+  const [carouselImagesFiles, setCarouselImagesFiles] = useState([]);
 
   let convertedTitle;
   let convertedContent;
+  // let carouselArray;
 
   const getPosterImage = async (imgFile) => {
     const resImg = await fetch(`${process.env.API_URL}/${imgFile}`);
@@ -65,9 +66,20 @@ const addPostPage = () => {
     const res = await fetch(`${process.env.API_URL}/${img}`);
     const buf = await res.arrayBuffer();
     const file = new File([buf], img.split("\\")[1], { type: "image/png" });
-    fileArr.push(file);
-    setPostCarousel(fileArr);
-    console.log("file array -> ", fileArr);
+    // carouselImagesFiles.push(file);
+    carouselImagesNames.forEach(imgName => {
+      if (file.name === imgName.split("\\")[1]) {
+        // postCarousel.splice(carouselImagesNames.indexOf(imgName), 0, file);
+
+        if (!carouselImagesNames.length) {
+          carouselImagesFiles.push(file);
+        } else {
+          carouselImagesFiles.splice(carouselImagesNames.indexOf(imgName), 0, file);
+        }
+      }
+    });
+    
+    console.log("file array -> ", postCarousel);
   };
 
   useEffect(() => {
@@ -76,13 +88,20 @@ const addPostPage = () => {
     }
 
     if (post[0] && post[0].imageGallery != "") {
-      const carouselArray = post[0].imageGallery.split(",");
-      carouselArray.forEach((imgName) => {
+      // carouselArray = post[0].imageGallery.split(",");
+      console.log("carousel array ", carouselImagesNames);
+      carouselImagesNames.forEach((imgName) => {
         getCarouselImages(imgName);
       });
+      setTimeout(() => {
+        setPostCarousel(carouselImagesFiles);
+      }, 500);
     }
+    console.log("post carousel", postCarousel);
     console.log("user status", userStatus);
   }, []);
+
+
 
   const onTitleEditorStateChange = (titleEditorState) => {
     setTitleEditorState(titleEditorState);
@@ -101,46 +120,6 @@ const addPostPage = () => {
     );
   }, [onTitleEditorStateChange, onContentEditorStateChange]);
 
-  // const imageHandler = (e) => {
-  //   setImage(e.target.files[0] ? e.target.files[0] : "");
-  //   if (e.target.files) {
-  //     console.log("multiple upload", e.target.files[0]);
-  //     setRemoveImage(false);
-  //   }
-
-  //   if (e.target.files[0]) {
-  //     const reader = new FileReader();
-  //     reader.onload = () => {
-  //       if (reader.readyState === 2) {
-  //         setPreviewImage(reader.result);
-  //       }
-  //     };
-  //     reader.readAsDataURL(e.target.files[0]);
-  //   }
-  // };
-
-  // const carouselImageHandler = (e) => {
-  //   setPostCarousel(e.target.files ? e.target.files : "");
-  //   if (e.target.files) {
-  //     console.log("multiple upload", e.target.files);
-  //     setRemoveImage(false);
-  //   }
-
-  //   // if (e.target.files) {
-  //   //   const reader = new FileReader();
-  //   //   reader.onload = () => {
-  //   //     if (reader.readyState === 2) {
-  //   //       setPreviewImage(reader.result);
-  //   //     }
-  //   //   };
-  //   //   reader.readAsDataURL(e.target.files);
-  //   // }
-  // };
-
-  const handleRemoveImage = () => {
-    setImage("");
-    setRemoveImage(true);
-  };
 
   const handleDropzonePosterOnChangeStatus = (fileWithMeta, status) => {
     if (status === "done" || status === "removed") {
@@ -150,7 +129,6 @@ const addPostPage = () => {
         setImage([]);
       }
     }
-    console.log("IMAGE", image);
   };
 
   const handleDropzoneGalleryOnChangeStatus = (fileWithMeta, status) => {
@@ -201,40 +179,41 @@ const addPostPage = () => {
       router.push("/");
     } else {
       dispatch(updatePost(formData, post[0].id));
-      router.push(`/post/${post[0].id}`);
+      // router.push(`/post/${post[0].id}`);
+      router.push("/");
     }
   };
 
   return (
-    <div>
+    <div className={addPostStyles.add_post_container}>
       <Meta title="Add Post" />
-      <h1>
+      <h1 className={addPostStyles.mainTitle}>
         {router.query.addEditPost === "addPost"
-          ? "Adauga o Postare"
-          : "Editeaza Postarea"}
+          ? "Adauga un articol"
+          : "Editeaza articolul"}
       </h1>
       <form id="post-form" method="POST" encType="multipart/form-data">
         <div className={addPostStyles.form_control}>
           <label>
-            Titlu
+          <p className={addPostStyles.labelText}>Titlu</p>
             <ArticleEditor
               editorState={titleEditorState}
               onEditorStateChange={onTitleEditorStateChange}
             />
           </label>
         </div>
+        
+        <div className={addPostStyles.form_control}>
+          <p className={addPostStyles.labelText}>Imaginea principala articolului</p>
+          <DropzoneUploader
+            onChangeStatus={handleDropzonePosterOnChangeStatus}
+            initialFiles={image}
+            maxFiles={1}
+          />
+        </div> 
         <div className={addPostStyles.form_control}>
           <label>
-            Continut
-            <ArticleEditor
-              editorState={contentEditorState}
-              onEditorStateChange={onContentEditorStateChange}
-            />
-          </label>
-        </div>
-        <div className={addPostStyles.form_control}>
-          <label>
-            Link you tube
+            <p className={addPostStyles.labelText}>Link youtube&nbsp;</p>
             <input
               className="post-input"
               name="link"
@@ -244,67 +223,23 @@ const addPostPage = () => {
           </label>
         </div>
         <div className={addPostStyles.form_control}>
-          <DropzoneUploader
-            onChangeStatus={handleDropzonePosterOnChangeStatus}
-            initialFiles={image}
-            maxFiles={1}
-          />
-          {/* <label>
-            Poster
-            <input
-              type="file"
-              accept="image/*"
-              className="post-input"
-              name="imageUrl"
-              title="alege o imagine"
-              onChange={imageHandler}
-              // multiple
-            />
-          </label>
-          {(post[0] || image) && !removeImage ? (
-            <div className={addPostStyles.image_thumbnail}>
-              <img
-                src={
-                  post[0] && !image
-                    ? `${process.env.API_URL}/${post[0].imageUrl}`
-                    : previewImage
-                }
-                alt=""
-                id="preview-image"
-              />
-              <div
-                className={addPostStyles.remove_image}
-                onClick={handleRemoveImage}
-              >
-                X
-              </div>
-            </div>
-          ) : null}
-          {!removeImage &&
-            (post[0] && !image ? (
-              <p>{post[0].imageUrl.split("-")[1]}</p>
-            ) : (
-              image && <p>{image.name}</p>
-            ))} */}
+          <p className={addPostStyles.labelText}>Galerie de imagini</p>
           <DropzoneUploader
             onChangeStatus={handleDropzoneGalleryOnChangeStatus}
             initialFiles={postCarousel}
           />
-          {/* <label>
-            Carousel
-            <input
-              type="file"
-              accept="image/*"
-              className="post-input"
-              name="postCarousel"
-              title="alege o imagine"
-              onChange={carouselImageHandler}
-              multiple
-            />
-          </label> */}
         </div>
-        <a href="#" onClick={submitHandler}>
-          {post[0] ? "Salveaza modificarile" : "Adauga postarea"}
+        <div className={addPostStyles.form_control}>
+          <label>
+            <p className={addPostStyles.labelText}>Descriere</p>
+            <ArticleEditor
+              editorState={contentEditorState}
+              onEditorStateChange={onContentEditorStateChange}
+            />
+          </label>
+        </div>
+        <a className={addPostStyles.submitButton} href="#" onClick={submitHandler}>
+          {post[0] ? "Salveaza modificarile" : "Adauga articolul"}
         </a>
       </form>
     </div>

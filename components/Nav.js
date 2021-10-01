@@ -14,7 +14,7 @@ const Nav = () => {
 
   return (
     <>
-      <nav className={`${navStyles.navAdmin} ${navStyles.nav}`}>
+      <nav className={`${navStyles.navAdmin}`}>
         <ul>
         {userState.user && userState.user.userStatus === "admin" && (
             <li>
@@ -58,13 +58,13 @@ const Nav = () => {
             <Link href="/">Acasă</Link>
           </li>
           <li>
-            <Link href="/about">Fototecă</Link>
+            <Link href="/gallery">Fototecă</Link>
           </li>
           <li>
             <Link href="/about">Despre noi</Link>
           </li>
           <li>
-            <Link href="/about">Contact</Link>
+            <Link href="/contact">Contact</Link>
           </li>
           
         </ul>

@@ -2,27 +2,48 @@
 @import "fonts";
 
 .navAdmin {
+  position: relative;
+  // padding: 10px;
+  color: $dark_green;
+  border-bottom: 1px solid $dark_green;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+
   height: 20px !important;
   background-color: $dark_green !important;
   color: $white !important;
+
   ul {
     justify-content: flex-end !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    list-style: none;
+    width: 100%;
+    max-width: 1440px;
+
     li {
       font-family: 'Roboto';
       font-weight: 300;
       font-style: normal;
       font-size: 12px;
+      margin: 5px 15px;
+
 
     }
+
     li:hover {
       cursor: pointer;
       font-size: 12px;
-      transform: rotate(0deg)  ;
+      transform: rotate(0deg);
       text-shadow: 2px 2px 4px #000000;
       transition: 0s;
     }
   }
 }
+
 .nav {
   position: relative;
   height: 85px;
@@ -34,6 +55,12 @@
   align-items: center;
   justify-content: center;
   z-index: 2;
+  background-image: url("../public/images/footer-flowers-left.png"), url("../public/images/footer-flowers-right.png");
+  background-repeat: no-repeat, no-repeat;
+  background-position: left bottom, right bottom;
+  background-size: auto, contain;
+  box-shadow: 10px 0px 100px #116149;
+
   ul {
 
     display: flex;
@@ -43,9 +70,11 @@
     width: 100%;
     max-width: 1440px;
   }
+
   .logo {
     margin-right: auto;
   }
+
   li {
     margin: 5px 15px;
     font-family: 'Parisienne';
@@ -57,7 +86,7 @@
     &:hover {
       cursor: pointer;
       // font-size: 45px;
-      transform: scale(1.3) rotate(3deg) ;
+      transform: scale(1.05);
       text-shadow: 2px 2px 4px #000000;
       transition: .5s ease-in-out;
     }
@@ -81,6 +110,7 @@
   left: 10%;
   transition: 1s ease-in-out;
   z-index: 1;
+
   ul {
     margin: auto;
     padding: 0;
@@ -89,7 +119,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    
+
     li {
       margin: 5px 15px;
       font-family: 'Parisienne';
@@ -97,6 +127,7 @@
       font-style: normal;
       color: $white;
       font-size: 40px;
+
       a {
         text-decoration: none;
       }
@@ -114,9 +145,11 @@
   .navAdmin {
     display: none;
   }
+
   .nav {
     justify-content: flex-end;
     height: 50px;
+
     ul {
       display: none;
     }
