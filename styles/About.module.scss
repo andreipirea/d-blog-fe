@@ -1,0 +1,132 @@
+@import "colors";
+@import "fonts";
+
+.about_page_container {
+  // max-width: 1440px;
+  // width: 80%;
+  // margin: auto;
+  // padding-bottom: 60px;
+  background-image: url("../public/images/wood-tile.jpg");
+  background-position: left top;
+  background-size: auto;
+  background-repeat: repeat;
+  background-attachment: fixed;
+  padding-bottom: 60px;
+
+  .admin_icons_container {
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    background-color: rgba(255, 255, 255, 0.6);
+    box-shadow: 0 0 50px 0 rgb(0 0 0 / 30%);
+    border-radius: 0 10px 10px 0;
+    top: 50%;
+    z-index: 1;
+  }
+
+  .mainTitle {
+    width: fit-content;
+    margin: auto;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    font-family: 'Parisienne';
+    color: $dark_green;
+    font-size: 60px;
+  }
+
+  .about_inner_container {
+    max-width: 1170px;
+    width: 80%;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    // box-shadow: 0 0 29px 0 rgb(50 50 50 / 32%);
+    box-shadow: 0 0 50px 0 rgb(0 0 0 / 60%);
+    background-color: white;
+    // padding: 40px 40px;
+    padding: 2%;
+    border-radius: 10px;
+
+    .content_container {
+      .image_container {
+        width: 40%;
+        float: left;
+        margin-right: 23px;
+        img {
+          width: 100%;
+          height: auto;
+        }
+      }
+      p {
+        margin: 0;
+      }
+    }
+
+
+    form {
+      width: 80%;
+      margin: auto;
+  
+      .form_control {
+        margin-bottom: 40px;
+  
+        .labelText {
+          font-family: 'Parisienne';
+          color: $dark_green;
+          font-size: 35px;
+          margin: 0;
+        }
+  
+        div[class="dzu-dropzone"] {
+          overflow: auto;
+          border: 1px solid $dark_green;
+          box-shadow: 2px 2px 4px $dark_green;
+        }
+  
+        input[name="link"] {
+          width: 50%;
+          border: 1px solid $dark_green;
+          box-shadow: 2px 2px 4px $dark_green;
+  
+          &:focus {
+            border: 1px solid red;
+  
+          }
+        }
+  
+        label>div {
+          border: 1px solid $dark_green;
+          box-shadow: 2px 2px 4px $dark_green;
+          margin-bottom: 20px;
+          border-radius: 4px;
+        }
+  
+      }
+    }
+  
+    .submitButton {
+      // position: absolute;
+      padding: 20px;
+      margin: 0 0 40px 0;
+      width: fit-content;
+      font-family: "Roboto";
+      // font-weight: 900;
+      font-style: normal;
+      color: $dark_green;
+      border: 1px solid $dark_green;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: .2s ease-in-out;
+  
+      &:hover {
+        background-color: $dark_green;
+        color: white;
+        transition: .2s ease-in-out;
+      }
+    }
+  }
+
+
+}

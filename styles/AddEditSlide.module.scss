@@ -1,0 +1,80 @@
+@import "colors";
+@import "fonts";
+
+.add_post_container {
+  max-width: 1440px;
+  width: 80%;
+  margin: auto;
+  padding-bottom: 60px;
+
+  .mainTitle {
+    width: fit-content;
+    margin: auto;
+    margin-top: 2%;
+    font-family: 'Parisienne';
+    color: $dark_green;
+  }
+
+  form {
+    width: 80%;
+    margin: auto;
+
+    .form_control {
+      margin-bottom: 40px;
+
+      .labelText {
+        font-family: 'Parisienne';
+        color: $dark_green;
+        font-size: 35px;
+        margin: 0;
+      }
+
+      div[class="dzu-dropzone"] {
+        overflow: auto;
+        border: 1px solid $dark_green;
+        box-shadow: 2px 2px 4px $dark_green;
+      }
+
+      input[name="link"] {
+        width: 50%;
+        border: 1px solid $dark_green;
+        box-shadow: 2px 2px 4px $dark_green;
+
+        &:focus {
+          border: 1px solid red;
+
+        }
+      }
+
+      label>div {
+        border: 1px solid $dark_green;
+        box-shadow: 2px 2px 4px $dark_green;
+        margin-bottom: 20px;
+        border-radius: 4px;
+      }
+
+    }
+  }
+
+  .submitButton {
+    // position: absolute;
+    padding: 20px;
+    margin: 0 0 40px 0;
+    width: fit-content;
+    font-family: "Roboto";
+    // font-weight: 900;
+    font-style: normal;
+    color: $dark_green;
+    border: 1px solid $dark_green;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: .2s ease-in-out;
+
+    &:hover {
+      background-color: $dark_green;
+      color: white;
+      transition: .2s ease-in-out;
+    }
+  }
+
+}

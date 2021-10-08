@@ -1,0 +1,66 @@
+@import "colors";
+
+.gallery_container {
+  width: 100%;
+  height: 100%;
+  background-image: url("../public/images/wood-tile.jpg");
+  background-position: left top;
+  background-size: auto;
+  background-repeat: repeat;
+  background-attachment: fixed;
+  flex: 1 1 auto;
+
+  .gallery_title {
+    font-family: "parisienne";
+    font-size: 50px;
+    display: flex;
+    justify-content: center;
+    margin: 2% 0;
+    color: $dark_green;
+  }
+
+  .gallery_inner_container {
+    max-width: 1440px;
+    background-color: rgb(17, 97, 73, .4);
+    margin: auto;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    align-items: center;
+    padding-top: 20px;
+    box-shadow: 10px 10px 30px #000000;
+    border-radius: 10px;
+
+
+    .image_container {
+      width: 300px;
+      height: 200px;
+      border: 5px solid white;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      z-index: 1;
+      box-shadow: 10px 10px 30px #000000;
+      transition: .5s ease-in-out;
+
+      &:hover {
+        box-shadow: 30px 30px 50px #000;
+        transition: .5s ease-in-out;
+        transform: scale(1.07);
+      }
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 10px;
+
+      }
+    }
+  }
+  @media (max-width: 1440px) {
+    .gallery_inner_container {
+      margin: 0 2% 5% 2% ;
+    }
+  }
+}

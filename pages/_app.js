@@ -7,6 +7,7 @@ import thunk from "redux-thunk";
 import { postsReducer } from "../redux/reducers/postsReducer";
 import { authReducer } from "../redux/reducers/authReducer";
 import { slidesReducer } from "../redux/reducers/slidesReducer";
+import { aboutReducer } from "../redux/reducers/aboutReducer";
 import { Provider } from "react-redux";
 // import {store} from "../redux/store";
 import "slick-carousel/slick/slick.css";
@@ -20,7 +21,8 @@ const middleware = [thunk];
 const rootReducer = combineReducers({
   postsReducer: postsReducer,
   authReducer: authReducer,
-  slidesReducer: slidesReducer
+  slidesReducer: slidesReducer,
+  aboutReducer: aboutReducer
 });
 
 const composeEnhancers =

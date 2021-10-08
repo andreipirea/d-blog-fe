@@ -17,32 +17,27 @@
 
 
   &:hover {
-    box-shadow: 30px 30px 50px #000;
-    transition: .5s ease-in-out;
-    // transform: translateY(-10px);
-    // transform: rotate(5deg);
-    transform: scale(1.07) rotate(3deg) ;
-  }
+    // box-shadow: 30px 30px 50px #000;
+    // transition: .5s ease-in-out;
+    // // transform: translateY(-10px);
+    // // transform: rotate(5deg);
+    // transform: scale(1.07) rotate(-3deg);
+    &:nth-child(odd) {
+      box-shadow: 30px 30px 50px #000;
+      transition: .5s ease-in-out;
+      transform: scale(1.07) rotate(3deg);
+  
+    }
 
-  .playIcon {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    width: 60px;
-    height: 60px;
-    cursor: pointer;
-    z-index: 2;
-
-    svg {
-      width: 100%;
-      height: 100%;
-      color: white;
-
-      &:hover {
-        color: $green;
-      }
+    &:nth-child(even) {
+      box-shadow: 30px 30px 50px #000;
+      transition: .5s ease-in-out;
+      transform: scale(1.07) rotate(-3deg);
+  
     }
   }
+
+  
 
   .linkContainer {
     position: relative;
@@ -55,6 +50,40 @@
     align-items: center;
     cursor: pointer;
     border-radius: 10px;
+
+    .category_label {
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      min-width: fit-content;
+      color: white;
+      padding: 6px 10px;
+      font-family: 'Roboto';
+      font-weight: 600;
+      font-size: 20px;
+      z-index: 2;
+      border-radius: 10px;
+    }
+
+    .playIcon {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      width: 60px;
+      height: 60px;
+      cursor: pointer;
+      z-index: 1;
+  
+      svg {
+        width: 100%;
+        height: 100%;
+        color: white;
+  
+        // &:hover {
+        //   color: $green;
+        // }
+      }
+    }
 
     .cardOverlay {
       position: absolute;
@@ -143,13 +172,14 @@
     width: 315px !important;
     height: 330px;
 
-    .linkContainer{
+    .linkContainer {
       .title {
 
         &>*>* {
           font-size: 28px !important;
           line-height: 30px;
         }
+
         &>* {
           font-size: 28px !important;
           line-height: 30px;

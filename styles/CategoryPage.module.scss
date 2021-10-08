@@ -1,0 +1,11 @@
+@import "colors";
+.category_page_container {
+  .category_title {
+    font-family: "parisienne";
+    font-size: 50px;
+    display: flex;
+    justify-content: center;
+    margin-top: 2%;
+    color: $dark_green;
+  }
+}

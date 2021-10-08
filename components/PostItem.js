@@ -30,13 +30,23 @@ const PostItem = ({ post }) => {
   return (
     post.imageUrl !== undefined && (
       <div className={postStyles.card}>
-        <div className={postStyles.playIcon}>
-          {post.link && (
-            <PlayCircleOutlineIcon />
-          )}
-        </div>
         <Link href="/post/[id]" as={`/post/${post.id}`}>
           <div className={postStyles.linkContainer}>
+            <div
+              className={postStyles.category_label}
+              style={
+                post.category === "Activitati"
+                  ? { backgroundColor: "#13aa52" }
+                  : post.category === "Retete"
+                  ? { backgroundColor: "#116149" }
+                  : { backgroundColor: "#990000" }
+              }
+            >
+              {post.category}
+            </div>
+            <div className={postStyles.playIcon}>
+              {post.link && <PlayCircleOutlineIcon />}
+            </div>
             <div className={postStyles.cardOverlay}></div>
 
             {post.imageUrl && (
@@ -46,7 +56,7 @@ const PostItem = ({ post }) => {
               />
             )}
             <div className={postStyles.title}>
-              {ReactHtmlParser(post.title)}
+              {ReactHtmlParser(post.id)}
             </div>
           </div>
         </Link>

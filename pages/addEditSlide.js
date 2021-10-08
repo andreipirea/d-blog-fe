@@ -1,5 +1,5 @@
 import Meta from "../components/Meta";
-import addPostStyles from "../styles/AddPost.module.css";
+import styles from "../styles/AddEditSlide.module.scss";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { useState, useEffect } from "react";
 
@@ -110,35 +110,35 @@ const addSlidePage = () => {
   };
 
   return (
-    <div>
+    <div className={styles.add_post_container}>
       <Meta title="Add Slide" />
-      <h1>
+      <h1 className={styles.mainTitle}>
         {router.query.addEditSlide === "addSlide"
           ? "Adauga un slide"
           : "Editeaza Slide-ul"}
       </h1>
       <form id="post-form" method="POST" encType="multipart/form-data">
-        <div className={addPostStyles.form_control}>
+        <div className={styles.form_control}>
           <label>
-            Titlu
+          <p className={styles.labelText}>Titlu</p>
             <ArticleEditor
               editorState={titleEditorState}
               onEditorStateChange={onTitleEditorStateChange}
             />
           </label>
         </div>
-        <div className={addPostStyles.form_control}>
+        <div className={styles.form_control}>
           <label>
-            Continut
+          <p className={styles.labelText}>Continut</p>
             <ArticleEditor
               editorState={contentEditorState}
               onEditorStateChange={onContentEditorStateChange}
             />
           </label>
         </div>
-        <div className={addPostStyles.form_control}>
+        <div className={styles.form_control}>
           <label>
-            Imaginea de fundal a slide-ului
+          <p className={styles.labelText}>Imaginea de fundal a slide-ului</p>
             <input
               type="file"
               accept="image/*"
@@ -149,7 +149,7 @@ const addSlidePage = () => {
             />
           </label>
           {(slide[0] || image) ? (
-              <div className={addPostStyles.image_thumbnail}>
+              <div className={styles.image_thumbnail}>
                 <img
                   src={
                     slide[0] && !image
@@ -167,7 +167,7 @@ const addSlidePage = () => {
             image && <p>{image.name}</p>
           )}
         </div>
-        <a href="#" onClick={submitHandler}>
+        <a className={styles.submitButton} href="#" onClick={submitHandler}>
           {slide[0] ? "Salveaza modificarile" : "Adauga slide-ul"}
         </a>
       </form>

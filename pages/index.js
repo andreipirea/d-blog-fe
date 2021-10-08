@@ -4,6 +4,7 @@ import PostsList from "../components/PostsList";
 import { useEffect } from 'react';
 import {fetchPosts} from '../redux/actions/postsActions';
 import {fetchSlides} from '../redux/actions/slidesActions';
+import {getAboutPage} from '../redux/actions/aboutActions';
 import {getUser, logout} from '../redux/actions/authActions';
 import { useSelector, useDispatch } from "react-redux";
 import HomeCarousel from "../components/HomeCarousel";
@@ -14,6 +15,7 @@ export default function Home() {
   useEffect(() => {
     dispatch(fetchPosts());
     dispatch(fetchSlides());
+    dispatch(getAboutPage());
     if (localStorage.getItem('token') !== null) {
       dispatch(getUser());
     }

@@ -44,10 +44,13 @@ const addPostPage = () => {
       ? editorDataStateContent
       : () => EditorState.createEmpty()
   );
+  const [category, setCategory] = useState(post[0] ? post[0].category : "Activitati");
   const [link, setLink] = useState(post[0] ? post[0].link : "");
   const [image, setImage] = useState([]);
   const [postCarousel, setPostCarousel] = useState([]);
-  const [carouselImagesNames, setCarouselImagesNames] = useState(post[0] && post[0].imageGallery != "" ? post[0].imageGallery.split(",") : []);
+  const [carouselImagesNames, setCarouselImagesNames] = useState(
+    post[0] && post[0].imageGallery != "" ? post[0].imageGallery.split(",") : []
+  );
   const [carouselImagesFiles, setCarouselImagesFiles] = useState([]);
 
   let convertedTitle;
@@ -57,9 +60,11 @@ const addPostPage = () => {
   const getPosterImage = async (imgFile) => {
     const resImg = await fetch(`${process.env.API_URL}/${imgFile}`);
     const bufImg = await resImg.arrayBuffer();
-    const fileImg = new File([bufImg], imgFile.split("\\")[1], { type: "image/png" });
+    const fileImg = new File([bufImg], imgFile.split("\\")[1], {
+      type: "image/png"
+    });
     setImage([fileImg]);
-  };  
+  };
 
   const getCarouselImages = async (img) => {
     const fileArr = [];
@@ -67,18 +72,22 @@ const addPostPage = () => {
     const buf = await res.arrayBuffer();
     const file = new File([buf], img.split("\\")[1], { type: "image/png" });
     // carouselImagesFiles.push(file);
-    carouselImagesNames.forEach(imgName => {
+    carouselImagesNames.forEach((imgName) => {
       if (file.name === imgName.split("\\")[1]) {
         // postCarousel.splice(carouselImagesNames.indexOf(imgName), 0, file);
 
         if (!carouselImagesNames.length) {
           carouselImagesFiles.push(file);
         } else {
-          carouselImagesFiles.splice(carouselImagesNames.indexOf(imgName), 0, file);
+          carouselImagesFiles.splice(
+            carouselImagesNames.indexOf(imgName),
+            0,
+            file
+          );
         }
       }
     });
-    
+
     console.log("file array -> ", postCarousel);
   };
 
@@ -101,8 +110,6 @@ const addPostPage = () => {
     console.log("user status", userStatus);
   }, []);
 
-
-
   const onTitleEditorStateChange = (titleEditorState) => {
     setTitleEditorState(titleEditorState);
   };
@@ -120,10 +127,9 @@ const addPostPage = () => {
     );
   }, [onTitleEditorStateChange, onContentEditorStateChange]);
 
-
   const handleDropzonePosterOnChangeStatus = (fileWithMeta, status) => {
     if (status === "done" || status === "removed") {
-      if (status === 'done') {
+      if (status === "done") {
         image.push(fileWithMeta.file);
       } else {
         setImage([]);
@@ -156,7 +162,7 @@ const addPostPage = () => {
     if (userStatus.user.userStatus !== "admin") {
       return alert("Nu ai drepturi pentru a edita sau adauga articole!");
     }
-    
+
     if (!image.length) {
       return alert("E musai sa ai o imagine principala!");
     }
@@ -166,13 +172,13 @@ const addPostPage = () => {
     formData.append("content", convertedContent);
     formData.append("link", link);
     formData.append("imageUrl", image[0]);
+    formData.append("category", category);
     for (let i = 0; i < postCarousel.length; i++) {
       formData.append("postCarousel", postCarousel[i]);
     }
 
     console.log("SUBMIT IMAGE", image);
     console.log("SUBMIT POST CAROUSEL", postCarousel);
-
 
     if (!post[0]) {
       dispatch(addPost(formData));
@@ -195,22 +201,34 @@ const addPostPage = () => {
       <form id="post-form" method="POST" encType="multipart/form-data">
         <div className={addPostStyles.form_control}>
           <label>
-          <p className={addPostStyles.labelText}>Titlu</p>
+            <p className={addPostStyles.labelText}>Categorie</p>
+            <select id="category" name="category" onChange={(e) => setCategory(e.target.value)} >
+              <option value="Activitati" selected={category == "Activitati" ? "selected" : ""} >Activitati</option>
+              <option value="Retete" selected={category == "Retete" ? "selected" : ""} >Retete</option>
+              <option value="Locuri de vizitat" selected={category == "Locuri de vizitat" ? "selected" : ""}>Locuri de vizitat</option>
+            </select>
+          </label>
+        </div>
+        <div className={addPostStyles.form_control}>
+          <label>
+            <p className={addPostStyles.labelText}>Titlu</p>
             <ArticleEditor
               editorState={titleEditorState}
               onEditorStateChange={onTitleEditorStateChange}
             />
           </label>
         </div>
-        
+
         <div className={addPostStyles.form_control}>
-          <p className={addPostStyles.labelText}>Imaginea principala articolului</p>
+          <p className={addPostStyles.labelText}>
+            Imaginea principala articolului
+          </p>
           <DropzoneUploader
             onChangeStatus={handleDropzonePosterOnChangeStatus}
             initialFiles={image}
             maxFiles={1}
           />
-        </div> 
+        </div>
         <div className={addPostStyles.form_control}>
           <label>
             <p className={addPostStyles.labelText}>Link youtube&nbsp;</p>
@@ -238,7 +256,11 @@ const addPostPage = () => {
             />
           </label>
         </div>
-        <a className={addPostStyles.submitButton} href="#" onClick={submitHandler}>
+        <a
+          className={addPostStyles.submitButton}
+          href="#"
+          onClick={submitHandler}
+        >
           {post[0] ? "Salveaza modificarile" : "Adauga articolul"}
         </a>
       </form>
