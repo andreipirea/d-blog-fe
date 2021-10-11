@@ -56,7 +56,7 @@ const PostItem = ({ post }) => {
               />
             )}
             <div className={postStyles.title}>
-              {ReactHtmlParser(post.id)}
+              {ReactHtmlParser(post.title)}
             </div>
           </div>
         </Link>

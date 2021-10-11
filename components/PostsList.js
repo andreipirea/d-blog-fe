@@ -6,7 +6,7 @@ import Pagination from "@mui/material/Pagination";
 
 const PostsList = ({ posts }) => {
   const [pageNumber, setPageNumber] = useState(1);
-  const postsPerPage = 6;
+  const postsPerPage = 4;
   // const pagesVisited = pageNumber * postsPerPage;
   const indexOfLastPost = pageNumber * postsPerPage;
   const indexOfFirstPost = indexOfLastPost - postsPerPage;
@@ -20,19 +20,12 @@ const PostsList = ({ posts }) => {
 
   const handlePageChange = (event, number) => {
     setPageNumber(number);
-    // window.scroll(0, 0);
+    window.scroll(0, 0);
   };
 
   return (
     <div className={postsListStyles.grid}>
-      {
-          displayPosts
-
-        // displayPosts
-        // displayPosts.map((post, idx) => (
-        //   <PostItem post={post} key={idx} />
-        // ))
-      }
+      {displayPosts}
       <Pagination
         defaultPage={1}
         count={pageCount}
