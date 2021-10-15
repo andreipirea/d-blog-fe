@@ -203,9 +203,9 @@ const addPostPage = () => {
           <label>
             <p className={addPostStyles.labelText}>Categorie</p>
             <select id="category" name="category" onChange={(e) => setCategory(e.target.value)} >
-              <option value="Activitati" selected={category == "Activitati" ? "selected" : ""} >Activitati</option>
-              <option value="Retete" selected={category == "Retete" ? "selected" : ""} >Retete</option>
-              <option value="Locuri de vizitat" selected={category == "Locuri de vizitat" ? "selected" : ""}>Locuri de vizitat</option>
+              <option  selected={category == "Activitati" ? "selected" : ""} >Activitati</option>
+              <option  selected={category == "Retete" ? "selected" : ""} >Retete</option>
+              <option  selected={category == "Locuri de vizitat" ? "selected" : ""}>Locuri de vizitat</option>
             </select>
           </label>
         </div>

@@ -10,6 +10,8 @@ import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 import { deletePost } from "../../../redux/actions/postsActions";
 import postPageStyles from "../../../styles/PostPage.module.scss";
 import Slider from "react-slick";
+import ConfirmationDialog from "../../../components/ConfirmationDialog";
+
 
 const Post = () => {
   const dispatch = useDispatch();
@@ -17,6 +19,7 @@ const Post = () => {
   const router = useRouter();
   const { id } = router.query;
   const [gallery, setGallery] = useState([]);
+  const [openConfirmationDialog, setOpenConfirmationDialog] = useState(false);
 
   const posts = useSelector((state) => state.postsReducer);
   const post = posts.filter((postId) => postId.id == id);
@@ -30,13 +33,11 @@ const Post = () => {
   }, []);
 
   const deleteHandler = async () => {
-    let answer = confirm("Sigur vrei sa stergi postarea?");
-    if (answer) {
+    
       await dispatch(deletePost(post[0].id));
+      setOpenConfirmationDialog(false);
       router.push("/");
-    } else {
-      return;
-    }
+    
   };
 
   const settings = {
@@ -83,7 +84,7 @@ const Post = () => {
                   cursor: "pointer",
                   margin: "10px 20px"
                 }}
-                onClick={deleteHandler}
+                onClick={() => setOpenConfirmationDialog(true)}
               />
             </div>
           )}
@@ -142,6 +143,7 @@ const Post = () => {
             </div>
           </div>
         </div>
+        <ConfirmationDialog noAnswer={() => setOpenConfirmationDialog(false)} yesAnswer={deleteHandler} open={openConfirmationDialog} />
       </>
     )
   );

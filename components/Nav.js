@@ -33,10 +33,10 @@ const Nav = () => {
           ) : (
             <>
               <li>
-                <Link href="/signup">Înregistrare</Link>
+                <Link href="/signup">Înscrie-te</Link>
               </li>
               <li>
-                <Link href="/login">Autentificare</Link>
+                <Link href="/login">Autentifică-te</Link>
               </li>
             </>
           )}

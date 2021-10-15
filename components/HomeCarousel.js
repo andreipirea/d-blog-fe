@@ -51,69 +51,80 @@ const HomeCarousel = () => {
   };
   return (
     <div className={carouselStyles.slider_container}>
-      <Slider {...settings}>
-        {fetchedSlides.map((slide, index) => {
-          return (
-            <div
-            data-index={index}
-            key={slide}
-            className={carouselStyles.slide_wrapper}
-            >
-            <div className={carouselStyles.slider_overlay}></div>
-              {slide.imageUrl && (
-                <img
-                  className={carouselStyles.slide_image}
-                  alt={`${process.env.API_URL}/${slide.imageUrl}`}
-                  src={`${process.env.API_URL}/${slide.imageUrl}`}
-                />
-              )}
-              <div className={carouselStyles.content_container}>
-                <div className={carouselStyles.title_container}>
-                  {ReactHtmlParser(slide.title)}
-                </div>
-                <div className={carouselStyles.text_container}>
-                  {ReactHtmlParser(slide.content)}
-                </div>
-              </div>
-              {userStatus.user && userStatus.user.userStatus === "admin" && (
-                <div className={carouselStyles.admin_icons}>
-                  <Link href="/addEditSlide">
-                    <LibraryAddIcon
-                      style={{
-                        fontSize: 100,
-                        color: "#009933",
-                        cursor: "pointer"
-                      }}
-                    />
-                  </Link>
-                  <Link
-                    {...(slideId !== undefined
-                      ? { href: `/addEditSlide/?slideId=${slideId}` }
-                      : { href: `/` })}
-                  >
-                    <EditIcon
-                      // onClick={() => getSlideId(slide.id)}
-                      style={{
-                        fontSize: 100,
-                        color: "blue",
-                        cursor: "pointer"
-                      }}
-                    />
-                  </Link>
-                  <DeleteForeverIcon
-                    onClick={deleteHandler}
-                    style={{
-                      fontSize: 100,
-                      color: "#ff0000",
-                      cursor: "pointer"
-                    }}
+      {!fetchedSlides.length ? <Link href="/addEditSlide">
+        <LibraryAddIcon
+          style={{
+            fontSize: 100,
+            color: "#009933",
+            cursor: "pointer"
+          }}
+        />
+      </Link> :
+        <Slider {...settings}>
+          {fetchedSlides.map((slide, index) => {
+            return (
+              <div
+                data-index={index}
+                key={slide}
+                className={carouselStyles.slide_wrapper}
+              >
+                <div className={carouselStyles.slider_overlay}></div>
+                {slide.imageUrl && (
+                  <img
+                    className={carouselStyles.slide_image}
+                    alt={`${process.env.API_URL}/${slide.imageUrl}`}
+                    src={`${process.env.API_URL}/${slide.imageUrl}`}
                   />
+                )}
+                <div className={carouselStyles.content_container}>
+                  <div className={carouselStyles.title_container}>
+                    {ReactHtmlParser(slide.title)}
+                  </div>
+                  <div className={carouselStyles.text_container}>
+                    {ReactHtmlParser(slide.content)}
+                  </div>
                 </div>
-              )}
-            </div>
-          );
-        })}
-      </Slider>
+                {userStatus.user && userStatus.user.userStatus === "admin" && (
+                  <div className={carouselStyles.admin_icons}>
+                    <Link href="/addEditSlide">
+                      <LibraryAddIcon
+                        style={{
+                          fontSize: 100,
+                          color: "#009933",
+                          cursor: "pointer"
+                        }}
+                      />
+                    </Link>
+                    <Link
+                      {...(slideId !== undefined
+                        ? { href: `/addEditSlide/?slideId=${slideId}` }
+                        : { href: `/` })}
+                    >
+                      <EditIcon
+                        // onClick={() => getSlideId(slide.id)}
+                        style={{
+                          fontSize: 100,
+                          color: "blue",
+                          cursor: "pointer"
+                        }}
+                      />
+                    </Link>
+                    <DeleteForeverIcon
+                      onClick={deleteHandler}
+                      style={{
+                        fontSize: 100,
+                        color: "#ff0000",
+                        cursor: "pointer"
+                      }}
+                    />
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </Slider>
+
+      }
     </div>
   );
 };

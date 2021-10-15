@@ -1,8 +1,16 @@
 export const SIGNUP_SUCCESS = "SIGNUP_SUCCESS";
+export const SIGNUP_ERROR = "SIGNUP_ERROR"
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
+export const LOGIN_ERROR = "LOGIN_ERROR";
 export const LOG_OUT = "LOG_OUT";
 export const GET_USER = "GET_USER";
+export const CLEAR_ERROR_MESSAGE = "CLEAR_ERROR_MESSAGE";
 
+export const clearErrorMessage = () => {
+  return {
+    type: CLEAR_ERROR_MESSAGE
+  }
+};
 
 export const logout = () => {
   return {
@@ -24,7 +32,16 @@ export const signup = (name, email, password) => async dispatch => {
       })
     });
     const data = await response.json();
-    console.log("signup data", data);
+    if (data.message) {
+      dispatch({
+        type: SIGNUP_ERROR,
+        payload: data.message
+      });
+      console.log("signup data", data.message);
+
+      return;
+    }
+    console.log("signup data", data.message);
     setTimeout(() => {
       dispatch(logout());
       console.log("log out");
@@ -51,6 +68,15 @@ export const login = (email, password) => async (dispatch) => {
       })
     });
     const data = await response.json();
+    if (data.message) {
+      dispatch({
+        type: LOGIN_ERROR,
+        payload: data.message
+      });
+      console.log("signup data", data.message);
+      return;
+    }
+
     console.log("login data", data);
     setTimeout(() => {
       dispatch(logout());

@@ -1,103 +1,136 @@
 import Meta from "../components/Meta";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { signup } from "../redux/actions/authActions";
-import { ContactsOutlined } from "@material-ui/icons";
 import formStyles from "../styles/FormPages.module.scss";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
-import FilledInput from "@mui/material/FilledInput";
-import InputAdornment from "@mui/material/InputAdornment";
-import IconButton from "@mui/material/IconButton";
-import Visibility from "@mui/icons-material/Visibility";
-import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import InputLabel from "@mui/material/InputLabel";
-import FormControl from "@mui/material/FormControl";
+import { useRouter } from "next/router";
+import Alert from '@mui/material/Alert';
+import { getUser } from '../redux/actions/authActions';
 
-const signupPage = () => {
+
+const contact = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [message, setMessage] = useState("");
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertType, setAlertType] = useState("success");
+  const [alertMessage, setAlertMessage] = useState("");
   const dispatch = useDispatch();
-  const userState = useSelector((state) => state.authReducer);
+  const router = useRouter();
 
-  const [values, setValues] = useState({
-    amount: "",
-    password: "",
-    weight: "",
-    weightRange: "",
-    showPassword: false
-  });
-  // const handleChange = (prop) => (event) => {
-  //   setValues({ ...values, [prop]: event.target.value });
-  // };
-
-  const handleClickShowPassword = () => {
-    setValues({
-      ...values,
-      showPassword: !values.showPassword
-    });
-  };
-
-  const handleMouseDownPassword = (event) => {
-    event.preventDefault();
-  };
+  useEffect(() => {
+    if (localStorage.getItem('token') !== null) {
+      dispatch(getUser());
+    }
+  }, []);
 
   const handleSubmit = async () => {
+
+    if (!name || !email || !message) {
+      setShowAlert(true);
+      setAlertType("warning");
+      setAlertMessage("Toate campurile trebuiesc completate!");
+      return;
+    }
     let emailValidation = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailValidation.test(email)) {
-      alert("Trebuie sa pui o adresa de email valida!");
-    }
-    if (!name || !email || !password) {
-      alert("Campurile sunt obligatorii!")
+      setShowAlert(true);
+      setAlertType("warning");
+      setAlertMessage("Trebuie sa pui o adresa de email validă!");
       return;
     }
-    if (password !== confirmPassword) {
-      console.log("nu ai pus aceeasi parola");
-      console.log("pass", password);
-      console.log("conf pass", confirmPassword);
-      alert("Parola difera!");
-      return;
+    
+
+    const response = await fetch(`${process.env.API_URL}/contact`, {
+      method: 'POST',
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        name,
+        email,
+        message
+      })
+    });
+
+    const data = await response.json();
+
+    setName("");
+    setEmail("");
+    setMessage("");
+
+    if (data.message == "success") {
+      setShowAlert(true);
+      setAlertType("success");
+      setAlertMessage("Mesajul tău a fost trimis cu succes!");
     }
-    // dispatch(signup(name, email, password));
+    if (data.message == "error") {
+      setShowAlert(true);
+      setAlertType("error");
+      setAlertMessage("A apărut o eroare! Mesajul nu a fost trimis. Te rugăm sa încerci puțin mai târziu.");
+    }
+
+    // setTimeout(() => {
+    //   setShowAlert(false);
+    // }, 5000);
+
+    // router.push("/");
+
+
   };
-  console.log("user state", userState);
   return (
     <div className={formStyles.formContainer}>
       <Meta title="Creeaza-ti cont" />
-      <h1 className={formStyles.formTitle}>Creeaza-ti cont</h1>
-        <Box
-          className={formStyles.form}
-          component="form"
-          sx={{
-            "& > :not(style)": { m: 1, width: "25ch" }
-          }}
-          noValidate
-          autoComplete="off"
-        >
-          <TextField
-            id="outlined-basic"
-            label="Nume"
-            variant="filled"
-            color="success"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
-          <TextField
-            id="filled-basic"
-            label="E-mail"
-            variant="filled"
-            color="success"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            type="email"
-          />
-          <a className={formStyles.submitButton} onClick={handleSubmit}>Trimite</a>
-        </Box>
+      <h1 className={formStyles.formTitle}>Contactează-ne!</h1>
+      <Alert className={`${formStyles.alert} ${showAlert ? formStyles.showAlert : ""}`} variant="filled" severity={alertType}>
+        {alertMessage}
+      </Alert>
+      <Box
+        className={formStyles.form}
+        component="form"
+        sx={{
+          "& > :not(style)": { m: 1, width: "400px", maxWidth: "90vw", margin: "0" }
+        }}
+        // sx={{
+        //   width: 300,
+        //   maxWidth: '70%',
+        // }}
+        noValidate
+        autoComplete="off"
+      >
+
+        <TextField
+          id="outlined-basic"
+          label="Nume"
+          variant="filled"
+          color="success"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+        <TextField
+          id="filled-basic"
+          label="E-mail"
+          variant="filled"
+          color="success"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          type="email"
+        />
+        <TextField
+          id="filled-multiline-flexible"
+          label="Lasa mesajul tău aici"
+          multiline
+          rows={10}
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+          variant="filled"
+        />
+        <a className={formStyles.submitButton} onClick={handleSubmit}>Trimite</a>
+      </Box>
       {/* </form> */}
     </div>
   );
 };
 
-export default signupPage;
+export default contact;

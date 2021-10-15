@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Link from "next/link";
 import postStyles from "../styles/PostItem.module.scss";
 import ReactHtmlParser from "react-html-parser";
@@ -7,24 +8,22 @@ import PlayCircleOutlineIcon from "@material-ui/icons/PlayCircleOutline";
 import { useSelector, useDispatch } from "react-redux";
 import { deletePost } from "../redux/actions/postsActions";
 import { useRouter } from "next/router";
+import ConfirmationDialog from "./ConfirmationDialog.js";
 
 const PostItem = ({ post }) => {
   const dispatch = useDispatch();
   const userStatus = useSelector((state) => state.authReducer);
   const router = useRouter();
+  const [openConfirmationDialog, setOpenConfirmationDialog] = useState(false);
 
   // const editHandler = () => {
   //   router.push("/addPost");
   // };
 
   const deleteHandler = () => {
-    let answer = confirm("Sigur vrei sa stergi postarea?");
-    if (answer) {
       dispatch(deletePost(post.id));
+      setOpenConfirmationDialog(false);
       router.push("/");
-    } else {
-      return;
-    }
   };
 
   return (
@@ -38,8 +37,8 @@ const PostItem = ({ post }) => {
                 post.category === "Activitati"
                   ? { backgroundColor: "#13aa52" }
                   : post.category === "Retete"
-                  ? { backgroundColor: "#116149" }
-                  : { backgroundColor: "#990000" }
+                    ? { backgroundColor: "#116149" }
+                    : { backgroundColor: "#990000" }
               }
             >
               {post.category}
@@ -78,10 +77,11 @@ const PostItem = ({ post }) => {
                 color: "#ff0000",
                 cursor: "pointer"
               }}
-              onClick={deleteHandler}
+              onClick={() => setOpenConfirmationDialog(true)}
             />
           </div>
         )}
+        <ConfirmationDialog noAnswer={() => setOpenConfirmationDialog(false)} yesAnswer={deleteHandler} open={openConfirmationDialog} />
       </div>
     )
   );
