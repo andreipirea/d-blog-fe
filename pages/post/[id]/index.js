@@ -143,7 +143,13 @@ const Post = () => {
             </div>
           </div>
         </div>
-        <ConfirmationDialog noAnswer={() => setOpenConfirmationDialog(false)} yesAnswer={deleteHandler} open={openConfirmationDialog} />
+        <ConfirmationDialog 
+          title={"Ești sigur că vrei să ștergi articolul?"}
+          contentText={"Dacă ștergi articolul acesta nu va mai putea fi recuperat!"}
+          noAnswer={() => setOpenConfirmationDialog(false)} 
+          yesAnswer={deleteHandler} 
+          open={openConfirmationDialog} 
+        />
       </>
     )
   );

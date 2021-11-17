@@ -6,9 +6,14 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import useMediaQuery from '@mui/material/useMediaQuery';
+import Slide from '@mui/material/Slide';
 import { useTheme } from '@mui/material/styles';
 
-const ConfimationDialog = (props) => {
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="down" ref={ref} {...props} />;
+});
+
+const ConfirmationDialog = (props) => {
   const [open, setOpen] = React.useState(false);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
@@ -27,17 +32,18 @@ const ConfimationDialog = (props) => {
         Open responsive dialog
       </Button> */}
       <Dialog
+        TransitionComponent={Transition}
         fullScreen={fullScreen}
         open={props.open}
         onClose={handleClose}
         aria-labelledby="responsive-dialog-title"
       >
         <DialogTitle id="responsive-dialog-title">
-          {"Ești sigur că vrei să ștergi articolul?"}
+          {props.title}
         </DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Dacă ștergi articolul acesta nu va mai putea fi recuperat!
+            {props.contentText}
           </DialogContentText>
         </DialogContent>
         <DialogActions>
@@ -53,4 +59,4 @@ const ConfimationDialog = (props) => {
   );
 }
 
-export default ConfimationDialog;
+export default ConfirmationDialog;
