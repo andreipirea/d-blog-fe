@@ -81,7 +81,7 @@ const contact = () => {
   };
   return (
     <div className={formStyles.formContainer}>
-      <Meta title="Creeaza-ti cont" />
+      <Meta title="Contacteză-ne!" />
       <h1 className={formStyles.formTitle}>Contactează-ne!</h1>
       <Alert className={`${formStyles.alert} ${showAlert ? formStyles.showAlert : ""}`} variant="filled" severity={alertType}>
         {alertMessage}

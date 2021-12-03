@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from "next/router";
 import styles from "../styles/CategoryPage.module.scss";
-
+import Meta from "../components/Meta";
 import PostsList from "../components/PostsList";
 import {fetchPosts} from '../redux/actions/postsActions';
 import {getUser} from '../redux/actions/authActions';
@@ -25,6 +25,7 @@ const categoryPage = () => {
 
   return (
     <div className={styles.category_page_container}>
+      <Meta title={category} />
       {categoryPosts && <div className={styles.category_title}>{category}</div>}
       <PostsList posts={categoryPosts} />
     </div>

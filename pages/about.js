@@ -137,7 +137,7 @@ const about = () => {
 
   return (
     <div className={styles.about_page_container}>
-      <Meta title="Add Post" />
+      <Meta title="Despre noi" />
       {userStatus.user && userStatus.user.userStatus === "admin" && (
         <div className={styles.admin_icons_container}>
           <EditIcon

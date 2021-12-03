@@ -10,7 +10,9 @@ const PostsList = ({ posts }) => {
   // const pagesVisited = pageNumber * postsPerPage;
   const indexOfLastPost = pageNumber * postsPerPage;
   const indexOfFirstPost = indexOfLastPost - postsPerPage;
-  const displayPosts = posts.slice(indexOfFirstPost, indexOfLastPost).map((post, idx) => <PostItem post={post} key={idx} />);
+  const displayPosts = posts
+    .slice(indexOfFirstPost, indexOfLastPost)
+    .map((post, idx) => <PostItem post={post} key={idx} />);
   // const pageCount = pageNumber => setCurrentPage(pageNumber);
   // const displayPosts = posts
   //   .slice(pagesVisited, pagesVisited + postsPerPage)
@@ -26,13 +28,15 @@ const PostsList = ({ posts }) => {
   return (
     <div className={postsListStyles.grid}>
       {displayPosts}
-      <Pagination
-        defaultPage={1}
-        count={pageCount}
-        onChange={handlePageChange}
-        variant="outlined" 
-        color="primary"
-      />
+      {posts.length > 4 && (
+        <Pagination
+          defaultPage={1}
+          count={pageCount}
+          onChange={handlePageChange}
+          variant="outlined"
+          color="primary"
+        />
+      )}
     </div>
   );
 };

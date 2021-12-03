@@ -192,7 +192,7 @@ const addPostPage = () => {
 
   return (
     <div className={addPostStyles.add_post_container}>
-      <Meta title="Add Post" />
+      <Meta title="Adauga un articol!" />
       <h1 className={addPostStyles.mainTitle}>
         {router.query.addEditPost === "addPost"
           ? "Adauga un articol"
