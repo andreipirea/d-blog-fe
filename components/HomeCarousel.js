@@ -5,6 +5,7 @@ import ReactHtmlParser from "react-html-parser";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 import LibraryAddIcon from "@material-ui/icons/LibraryAdd";
+import { Skeleton } from '@mui/material';
 import { useSelector, useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
 import { deleteSlide } from "../redux/actions/slidesActions";
@@ -51,14 +52,16 @@ const HomeCarousel = () => {
   };
   return (
     <div className={carouselStyles.slider_container}>
-      {!fetchedSlides.length ? <Link href="/addEditSlide">
-        <LibraryAddIcon
+      {!fetchedSlides.length ? 
+      <Link href="/addEditSlide">
+      <Skeleton variant="rectangular" width={5000} height={600} />
+        {/* <LibraryAddIcon
           style={{
             fontSize: 100,
             color: "#009933",
             cursor: "pointer"
           }}
-        />
+        /> */}
       </Link> :
         <Slider {...settings}>
           {fetchedSlides.map((slide, index) => {

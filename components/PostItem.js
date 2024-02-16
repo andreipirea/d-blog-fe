@@ -5,6 +5,7 @@ import ReactHtmlParser from "react-html-parser";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 import PlayCircleOutlineIcon from "@material-ui/icons/PlayCircleOutline";
+import { Skeleton } from '@mui/material';
 import { useSelector, useDispatch } from "react-redux";
 import { deletePost } from "../redux/actions/postsActions";
 import { useRouter } from "next/router";
@@ -27,7 +28,9 @@ const PostItem = ({ post }) => {
   };
 
   return (
-    post.imageUrl !== undefined && (
+    post.imageUrl == undefined ?
+    <Skeleton variant="rectangular" width={679} height={431} style={{marginBottom: '40px'}} />
+    : (
       <div className={postStyles.card}>
         <Link href="/post/[id]" as={`/post/${post.id}`}>
           <div className={postStyles.linkContainer}>
