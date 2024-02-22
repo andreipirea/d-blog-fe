@@ -27,7 +27,7 @@ const PostsList = ({ posts }) => {
 
   return (
     <div className={postsListStyles.grid}>
-      {displayPosts}
+      {displayPosts.reverse()}
       {posts.length > 4 && (
         <Pagination
           defaultPage={1}

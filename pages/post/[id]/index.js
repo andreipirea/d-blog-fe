@@ -13,7 +13,7 @@ import Slider from "react-slick";
 import ConfirmationDialog from "../../../components/ConfirmationDialog";
 
 
-const Post = () => {
+const Post = ({post}) => {
   const dispatch = useDispatch();
   const userStatus = useSelector((state) => state.authReducer);
   const router = useRouter();
@@ -21,11 +21,12 @@ const Post = () => {
   const [gallery, setGallery] = useState([]);
   const [openConfirmationDialog, setOpenConfirmationDialog] = useState(false);
 
-  const posts = useSelector((state) => state.postsReducer);
-  const post = posts.filter((postId) => postId.id == id);
+  // const posts = useSelector((state) => state.postsReducer);
+  // const post = posts.filter((postId) => postId.id == id);
+  console.log('post >>>>>>>>>>>>>>>>>>', post)
 
   useEffect(() => {
-    dispatch(fetchPosts());
+    // dispatch(fetchPosts());
 
     if (post[0] && post[0].imageGallery !== "") {
       setGallery(post[0].imageGallery.split(","));
@@ -60,7 +61,7 @@ const Post = () => {
   return (
     post[0] !== undefined && (
       <>
-        <Meta title={"Titlu"} description={post[0].content} />
+        <Meta description={post[0].content} />
         <div className={postPageStyles.post_page_container}>
           {userStatus.user && userStatus.user.userStatus === "admin" && (
             <div className={postPageStyles.admin_icons_container}>
@@ -155,52 +156,13 @@ const Post = () => {
   );
 };
 
-// export const getStaticProps = async (context) => {
-//   const res = await fetch(`http://localhost:4000/getpost/${context.params.id}`);
-//   const post = await res.json();
-
-//   return {
-//     props: {
-//       post
-//     }
-//   };
-// };
-
-// export const getStaticPaths = async () => {
-//   const res = await fetch(`http://localhost:4000/getposts/`);
-//   const posts = await res.json();
-
-//   const ids = posts.map(post => post.id);
-//   const paths = ids.map(id => ({params:{id: id.toString()}}))
-
-//   return {
-//     paths,
-//     fallback: false
-//   }
-// };
-
-// export const getStaticProps = async (context) => {
-//   const res = await fetch(`https://jsonplaceholder.typicode.com/posts/${context.params.id}`);
-//   const article = await res.json();
-
-//   return {
-//     props: {
-//       article
-//     }
-//   };
-// };
-
-// export const getStaticPaths = async () => {
-//   const res = await fetch(`https://jsonplaceholder.typicode.com/posts`);
-//   const articles = await res.json();
-
-//   const ids = articles.map(article => article.id);
-//   const paths = ids.map(id => ({params:{id: id.toString()}}))
-
-//   return {
-//     paths,
-//     fallback: false
-//   }
-// };
-
 export default Post;
+
+
+export async function getServerSideProps(context) {
+  const {id} = context.query;
+  const postsResponse = await fetch(`${process.env.API_URL}/getpost/${id}`);
+  const post = await postsResponse.json(); 
+
+  return { props: { post } };
+}

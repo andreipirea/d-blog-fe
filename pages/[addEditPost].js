@@ -14,13 +14,12 @@ import { useRouter } from "next/router";
 import { addPost, updatePost } from "../redux/actions/postsActions";
 import { useSelector, useDispatch } from "react-redux";
 
-const addPostPage = () => {
+const addPostPage = ({post}) => {
   const router = useRouter();
   const posts = useSelector((state) => state.postsReducer);
   const userStatus = useSelector((state) => state.authReducer);
-  const post = posts.filter((p) => p.id == router.query.postId);
+  // const post = posts.filter((p) => p.id == router.query.postId);
   const dispatch = useDispatch();
-
   const contentDataStateTitle =
     post[0] &&
     ContentState.createFromBlockArray(
@@ -269,3 +268,16 @@ const addPostPage = () => {
 };
 
 export default addPostPage;
+
+
+export async function getServerSideProps(context) {
+  const id = context.query.postId;
+  let post
+  if (id) {
+    const postsResponse = await fetch(`${process.env.API_URL}/getpost/${id}`);
+    post = await postsResponse.json(); 
+  } else{
+    post = [];
+  }
+  return {props: {post}}
+}

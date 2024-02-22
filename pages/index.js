@@ -11,14 +11,14 @@ import HomeCarousel from "../components/HomeCarousel";
 import ConfirmationDialog from "../components/ConfirmationDialog";
 import { useRouter } from "next/router";
 
-export default function Home() {
+export default function Home({posts}) {
   const [openConfirmationDialog, setOpenConfirmationDialog] = useState(false);
   const router = useRouter();
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(fetchPosts());
+    // dispatch(fetchPosts());
     dispatch(fetchSlides());
-    dispatch(getAboutPage());
+    // dispatch(getAboutPage());
 
     if (localStorage.getItem("token") !== null) {
       dispatch(getUser());
@@ -31,7 +31,7 @@ export default function Home() {
     }
   }, []);
 
-  const posts = useSelector((state) => state.postsReducer);
+  // const posts = useSelector((state) => state.postsReducer);
 
   return !posts ? (
     "loading..."
@@ -57,28 +57,12 @@ export default function Home() {
   );
 }
 
-// export const getStaticProps = async () => {
-//   const res = await fetch(
-//     "http://localhost:4000/getposts"
-//   );
-//   const posts = await res.json();
+export async function getServerSideProps() {
+  const postsResponse = await fetch(`${process.env.API_URL}/getposts`);
+  const posts = await postsResponse.json(); 
 
-//   return {
-//     props: {
-//       posts,
-//     },
-//   };
-// };
+  // const slidesResponse = await fetch(`${process.env.API_URL}/getslides`);
+  // const slides = await slidesResponse.json();
 
-// export const getStaticProps = async () => {
-//   const res = await fetch(
-//     "https://jsonplaceholder.typicode.com/posts?_limit=6"
-//   );
-//   const articles = await res.json();
-
-//   return {
-//     props: {
-//       articles,
-//     },
-//   };
-// };
+  return { props: { posts } };
+}

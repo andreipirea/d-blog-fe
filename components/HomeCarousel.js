@@ -13,6 +13,7 @@ import { useRouter } from "next/router";
 
 const HomeCarousel = () => {
   const fetchedSlides = useSelector((state) => state.slidesReducer);
+  // const fetchedSlides = slides;
   const [currentSlideIndex, setCurrentSlideIndex] = useState(-1);
   const [slideId, setSlideId] = useState();
   const dispatch = useDispatch();
@@ -52,7 +53,7 @@ const HomeCarousel = () => {
   };
   return (
     <div className={carouselStyles.slider_container}>
-      {!fetchedSlides.length ? 
+      {!fetchedSlides?.length ? 
       <Link href="/addEditSlide">
       <Skeleton variant="rectangular" width={5000} height={600} />
         {/* <LibraryAddIcon
